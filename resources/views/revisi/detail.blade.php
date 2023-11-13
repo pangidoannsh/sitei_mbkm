@@ -39,6 +39,8 @@
         <p class="card-text text-start" >2007135748</p>
         <p class="card-title text-secondary text-sm " >Program Studi</p>
         <p class="card-text text-start" >Teknik Informatika</p>
+        <p class="card-title text-secondary text-sm " >Email</p>
+        <p class="card-text text-start" >fitra.ramadhan5748@student.unri.ac.id</p>
         <p class="card-title text-secondary text-sm " >Konsentrasi</p>
         <p class="card-text text-start" >Rekayasa Perangkat Lunak</p>
 
@@ -70,13 +72,14 @@
         <p class="card-title text-secondary text-sm" >Bidang Usaha/Kegiatan</p>
         <p class="card-text text-start" >Jasa</p>
         <p class="card-title text-secondary text-sm " >KRS Semester Berjalan</p>
-        <p class="card-text text-start " ><button  onclick="#" formtarget="_blank" target="_blank"class="badge bg-dark px-3 p-1">Buka</button></p>
+        {{-- <p class="card-text text-start " ><button  onclick="#" formtarget="_blank" target="_blank"class="badge bg-dark px-3 p-1">Buka</button></p>
         <p class="card-title text-secondary text-sm " >Transkip Nilai</p>
-        <p class="card-text text-start " ><button  onclick="#" formtarget="_blank" target="_blank"class="badge bg-dark px-3 p-1">Buka</button></p>
+        <p class="card-text text-start " ><button  onclick="#" formtarget="_blank" target="_blank"class="badge bg-dark px-3 p-1">Buka</button></p> --}}
 
         <p class="card-title text-secondary text-sm" >Periode Kegiatan</p>
         <p class="card-text text-start mb-md-4"> 30 Oktober 2023 - 30 Desember 2023</p>
-
+        <br>
+        <br>
     </div>
   </div>
 
@@ -88,14 +91,57 @@
       <div class="card-body">
         <h5 class="text-bold">Konversi Nilai</h5>
         <hr>
-        <p class="card-title text-secondary text-sm" >Metode Penelitian AI</p>
-        <p class="card-text text-start" ><span >Rekayasa Web 93.3</span></p>
-        <p class="card-title text-secondary text-sm" >Metode Penelitian AI</p>
-        <p class="card-text text-start" ><span >Rekayasa Web 93.3</span></p>
-        <p class="card-title text-secondary text-sm" >Metode Penelitian AI</p>
-        <p class="card-text text-start" ><span >Rekayasa Web 93.3</span></p>
-        <p class="card-title text-secondary text-sm" >Metode Penelitian AI</p>
-        <p class="card-text text-start" ><span >Rekayasa Web 93.3</span></p>
+        <table class="table table-responsive-lg table-bordered table-striped" width="100%">
+            <thead class="table-dark">
+               <tr>
+                    <th class="text-center" scope="col">NO</th>
+                    <th class="text-center" scope="col">Kode Mata Kuliah</th>
+                    <th class="text-center" scope="col">Nama Nilai MBKM</th>
+                    <th class="text-center" scope="col">Nilai Konversi</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">TIS323</td>
+                        <td class="text-center">Metode Penelitian AI</td>
+                        <td class="text-center">93.3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">2</td>
+                        <td class="text-center">TIS323</td>
+                        <td class="text-center">Metode Penelitian AI</td>
+                        <td class="text-center">93.3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">3</td>
+                        <td class="text-center">TIS323</td>
+                        <td class="text-center">Metode Penelitian AI</td>
+                        <td class="text-center">93.3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">4</td>
+                        <td class="text-center">TIS323</td>
+                        <td class="text-center">Metode Penelitian AI</td>
+                        <td class="text-center">93.3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">5</td>
+                        <td class="text-center">TIS323</td>
+                        <td class="text-center">Metode Penelitian AI</td>
+                        <td class="text-center">93.3</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">6</td>
+                        <td class="text-center">TIS323</td>
+                        <td class="text-center">Metode Penelitian AI</td>
+                        <td class="text-center">93.3</td>
+                    </tr>
+
+            </tbody>
+
+
+        </table>
         {{-- <div class="float-right">
             <div class="row">
                 <div class="col">

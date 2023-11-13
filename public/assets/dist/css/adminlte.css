@@ -210,6 +210,7 @@ svg {
 
 table {
   border-collapse: collapse;
+  border: 1px solid black;
 }
 
 caption {
@@ -10230,9 +10231,6 @@ a.text-dark:hover, a.text-dark:focus {
   abbr[title]::after {
     content: " (" attr(title) ")";
   }
-  pre {
-    white-space: pre-wrap !important;
-  }
   pre,
   blockquote {
     border: 1px solid #adb5bd;
@@ -10256,7 +10254,7 @@ a.text-dark:hover, a.text-dark:focus {
     page-break-after: avoid;
   }
   @page {
-    size: a3;
+    size: a4;
   }
   body {
     min-width: 992px !important;
@@ -32919,4 +32917,6 @@ a.text-muted:hover {
 .dark-mode .link-dark {
   color: #ced4da;
 }
+
+
 /*# sourceMappingURL=adminlte.css.map */

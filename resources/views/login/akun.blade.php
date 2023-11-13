@@ -31,8 +31,9 @@
     <div class="col mt-5">
       <div class="kotak-masuk p-3 mt-5"><main class="form-signin w-100 m-auto">
 
-        <a href="{{ route('pendaftaran.index') }}"><button class="mt-4 w-100 btn btn-lg btn-success rounded-pill border" type="button">As Mahasiswa</button></a>
+        <a href="{{ route('revisi.index') }}"><button class="mt-4 w-100 btn btn-lg btn-success rounded-pill border" type="button">As Mahasiswa</button></a>
         <a href="{{ route('prodi.index') }}"><button class="mt-4 w-100 btn btn-lg btn-success rounded-pill border" type="button">As Prodi</button></a>
+        <a href="{{ route('staff.index') }}"><button class="mt-4 w-100 btn btn-lg btn-success rounded-pill border" type="button">As Staff</button></a>
         {{-- <form class="form-login" action="/" method="POST" class="text-center mt-5">
           @csrf
 

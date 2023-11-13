@@ -75,5 +75,7 @@
         </tr>
   </tbody>
 </table>
+{{-- script print halaman --}}
+{{-- <script>window.print()</script> --}}
 
 @endsection

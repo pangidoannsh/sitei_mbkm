@@ -23,8 +23,8 @@
 <div class="container card p-4">
 
     <ol class="breadcrumb col-lg-12">
-        <li class="breadcrumb-item"><a class="breadcrumb-item active fw-bold text-black" href="{{ route('prodi.index') }}">Jadwal</a></li>
-        <li class="breadcrumb-item"><a class="breadcrumb-item" href="{{ route('prodi.riwayat') }}">Riwayat</a></li>  
+        <li class="breadcrumb-item"><a class="breadcrumb-item" href="{{ route('prodi.index') }}">Jadwal</a></li>
+        <li class="breadcrumb-item"><a class="breadcrumb-item active fw-bold text-black" href="{{ route('prodi.riwayat') }}">Riwayat</a></li>  
       </ol>
 
 <div class="container-fluid">
@@ -54,13 +54,41 @@
                     <td class="text-center">Studi Independen</td>
                     <td class="text-center">Arkatama Solusindo</td>
                     <td class="text-center ">FullStack Web Developer</td>
-                    <td class="text-center bg-warning">Belum Disetujui</td>
+                    <td class="text-center bg-success">Selesai MBKM</td>
                     <td class="text-center">30 Oktober 2023 - 30 Desember 2023</td>
                     <td class="text-center text-danger text-bold">25 Oktober 2023</td>
                     <td class="text-center">
                         <a href="{{ route('revisi.detail') }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
-                        <a href="{{ route('revisi.detail') }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-check"></i></i></a>
-                        <a href="{{ route('revisi.detail') }}" class="badge btn btn-danger p-1.5 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-times"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">2</td>
+                    <td class="text-center">2007135748</td>
+                    <td class="text-center">Muhammad Abdullah Qosim</td>
+                    <td class="text-center">Genap</td>
+                    <td class="text-center">Magang</td>
+                    <td class="text-center">Petrokimia</td>
+                    <td class="text-center ">Human Resource</td>
+                    <td class="text-center bg-success">Selesai MBKM</td>
+                    <td class="text-center">15 Juli 2023 - 30 Oktober 2023</td>
+                    <td class="text-center text-danger text-bold">10 Juli 2023</td>
+                    <td class="text-center">
+                        <a href="{{ route('revisi.detail') }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">3</td>
+                    <td class="text-center">2007135748</td>
+                    <td class="text-center">Ilmi Fajar Ramadhan</td>
+                    <td class="text-center">Genap</td>
+                    <td class="text-center">Magang</td>
+                    <td class="text-center">Petrokimia</td>
+                    <td class="text-center ">Human Resource</td>
+                    <td class="text-center bg-success">Selesai MBKM</td>
+                    <td class="text-center">15 Juli 2023 - 30 Oktober 2023</td>
+                    <td class="text-center text-danger text-bold">10 Juli 2023</td>
+                    <td class="text-center">
+                        <a href="{{ route('revisi.detail') }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
                     </td>
                 </tr>
         </tbody>

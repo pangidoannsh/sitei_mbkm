@@ -30,19 +30,22 @@
     </div>
     <div class="col mt-5">
       <div class="kotak-masuk p-3 mt-5"><main class="form-signin w-100 m-auto">
-      {{-- <div class="alert alert-danger alert-dismissible fade show float-left" role="alert">
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div> --}}
+        @if (session()->has('loginError'))
+        <div class="alert alert-danger alert-dismissible fade show float-left" role="alert">
+          {{session('loginError')}}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
 
 
-        <form class="form-login" action="/" method="POST" class="text-center mt-5">
+        <form class="form-login" action="#" method="#" class="text-center mt-5">
           @csrf
 
             <h1 class=" h3 mb-4 fw-bold">Selamat Datang!</h1>
 
             <div class="form-floating mt-5">
-            <input type="text" class="form-control @error('username') is-invalid @enderror" name="username" id="username" value="{{ old('username') }}" placeholder="username" autofocus required>
-            <label class="label-nim" for="username">NIP/NIM</label>
+            <input type="text" class="form-control" name="nim" id="nim" placeholder="NIM" autofocus required>
+            <label class="label-nim" for="nim">NIP/NIM</label>
 
             </div>
 
@@ -51,7 +54,7 @@
             <label for="password">Password</label>
             </div>
 
-            <a href="{{ route('akun') }}"><button class="mt-4 w-100 btn btn-lg btn-success rounded-pill border" type="button">Log in</button></a>
+            <a href="{{ route('login.akun') }}"><button class="mt-4 w-100 btn btn-lg btn-success rounded-pill border" type="button">Log in</button></a>
         </form>
         <small class=" kecil d-block text-center mt-3">Belum Terdaftar? <b>Hubungi Staff Jurusan!</b></small>
     </main></div>

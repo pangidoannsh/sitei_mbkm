@@ -43,7 +43,7 @@
     <img src="/assets/dist/img/unri.png" alt="" width="30" height="30" class="d-inline-block mr-2">
   </a>
 
-          <a class="navbar-brand mt-1 " href="/mahasiswa">SITEI
+          <a class="navbar-brand mt-1 " href="#">SITEI
     </a>
     </div>
     <button class="navbar-toggler navbar-light bg-light border border-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +57,7 @@
         </ul>
 
         <ul class="navbar-nav ml-auto">
-            <li style="padding-top: 6px;">Fitra Ramadhan</li>
+            <li style="padding-top: 6px;">User</li>
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               </a>
@@ -65,17 +65,18 @@
               <ul class="dropdown-menu dropdown-menu-end"style="border-radius:10px;" aria-labelledby="navbarDropdown">
 
               <li>
-              <a class="nav-link dropdown-item" href="/profil-dosen/editpassworddsn/">
-                  <i class="bi bipw bi-key"></i> <span>Ubah Password</span>
+              <a class="nav-link dropdown-item" href="#">
+                  <i class="fas fa-key"></i> <span>Ubah Password</span>
               </a>
               </li>
                   <li>
-                <a href="{{ route('akun') }}">
-                  <button type="button" class="dropdown-item">
-                      <i class="bi bi-box-arrow-right"></i> <span>Keluar</span>
-                  </button>
-                </a>
-                  </li>
+                    {{-- <form action="{{ route('logout') }}" method="POST"> --}}
+                        {{-- @csrf --}}
+                        <a href="{{ route('login.akun') }}">
+                        <button type="submit" class="dropdown-item">Logout</button>
+                        </a>
+                    {{-- </form> --}}
+                </li>
               </ul>
               </div>
           </li>
@@ -145,13 +146,6 @@
 
 <script type="text/javascript">$(document).ready(function() {
     var table = $('#datatables').DataTable( {
-        "lengthMenu": [ 50, 100, 150, 200, 250 ],
-        buttons: [ 'copy', 'excel','print', 'pdf' ],
-        dom:
-        "<'row'<'col-md-2'l><'col-md-5'B><'col-md-4'f>>" +
-        "<'row'<'col-md-12'tr>>" +
-        "<'row'<'col-md-5'i><'col-md-7'p>>"
-
     } );
 
     table.buttons().container()

@@ -23,15 +23,32 @@
 <div class="container card p-4">
 
     <ol class="breadcrumb col-lg-12">
-        <li class="breadcrumb-item"><a class="breadcrumb-item active fw-bold text-black" href="{{ route('prodi.index') }}">Jadwal</a></li>
-        <li class="breadcrumb-item"><a class="breadcrumb-item" href="{{ route('prodi.riwayat') }}">Riwayat</a></li>  
-      </ol>
+
+        <div class="btn-group menu-dosen scrollable-btn-group col-md-12">
+
+            <a href="{{ route('prodi.index') }}" class="btn bg-light border  border-bottom-0">
+                <span class="button-text">Usulan MBKM</span>
+                </a>
+
+                <a href="{{ route('prodi.sertifikat') }}"  class="btn btn-outline-success border  border-bottom-0 active" >
+                    <span class="button-text">Sertifikat</span>
+                    </a>
+
+                <a href="{{ route('prodi.konversi') }}"  class="btn bg-light border  border-bottom-0 "  >
+                <span class="button-text">Konversi Nilai</span>
+                </a>
+                <a href="{{ route('prodi.riwayat') }}"  class="btn bg-light border  border-bottom-0 "  >
+                    <span class="button-text">Riwayat</span>
+                </a>
+        </div>
+
+    </ol>
 
 <div class="container-fluid">
 
     <table class="table table-responsive-lg table-bordered table-striped" width="100%" id="datatables">
         <thead class="table-dark">
-           <tr>
+            <tr>
                 <th class="text-center" scope="col">NO</th>
                 <th class="text-center" scope="col">NIM</th>
                 <th class="text-center" scope="col">Nama</th>
@@ -54,13 +71,11 @@
                     <td class="text-center">Studi Independen</td>
                     <td class="text-center">Arkatama Solusindo</td>
                     <td class="text-center ">FullStack Web Developer</td>
-                    <td class="text-center bg-warning">Belum Disetujui</td>
+                    <td class="text-center bg-warning">Belum Upload Sertifikat</td>
                     <td class="text-center">30 Oktober 2023 - 30 Desember 2023</td>
                     <td class="text-center text-danger text-bold">25 Oktober 2023</td>
                     <td class="text-center">
                         <a href="{{ route('revisi.detail') }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
-                        <a href="{{ route('revisi.detail') }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-check"></i></i></a>
-                        <a href="{{ route('revisi.detail') }}" class="badge btn btn-danger p-1.5 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-times"></i></a>
                     </td>
                 </tr>
         </tbody>

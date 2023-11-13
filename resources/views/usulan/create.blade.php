@@ -30,6 +30,16 @@
 
         </div>
         <div class="mb-3 field">
+            <label class="form-label">Alamat Perusahaan/Instansi</label>
+            <input type="text" name="mitra" class="form-control " >
+
+        </div>
+        <div class="mb-3 field">
+            <label class="form-label">Bidang Usaha</label>
+            <input type="text" name="mitra" class="form-control " >
+
+        </div>
+        <div class="mb-3 field">
             <label class="form-label">Judul Kegiatan</label>
             <input type="text" name="title" class="form-control">
         </div>

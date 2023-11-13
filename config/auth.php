@@ -18,6 +18,16 @@ return [
         'passwords' => 'users',
     ],
 
+    'dosen' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\dosen::class,
+    ],
+
+    'mahasiswa' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\user::class,
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards
@@ -39,6 +49,22 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'users',
+            'hash' => false,
+        ],
+
+        'dosen' => [
+            'driver' => 'session',
+            'provider' => 'dosens'
+        ],
+
+        'mahasiswa' => [
+            'driver' => 'session',
+            'provider' => 'mahasiswas'
         ],
     ],
 
@@ -63,6 +89,16 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        'dosens' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Dosen::class,
+        ],
+
+        'mahasiswas' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Mahasiswa::class,
         ],
 
         // 'users' => [
@@ -93,10 +129,21 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => 'password_reset_tokens',
+            'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
         ],
+
+        'dosens' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Dosen::class,
+        ],
+
+        'mahasiswas' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Mahasiswa::class,
+        ],
+
     ],
 
     /*

@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class Mahasiswa extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -22,17 +22,22 @@ class User extends Authenticatable
     //     'email',
     //     'password',
     // ];
-    // protected $table = 'user';
+    protected $table = 'mahasiswa';
     protected $guarded = [];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 
     public function prodi()
     {
         return $this->belongsTo(Prodi::class);
     }
 
-    public function role()
+    public function konsentrasi()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Konsentrasi::class);
     }
 
     /**
