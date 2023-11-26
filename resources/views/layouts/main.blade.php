@@ -52,32 +52,68 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{{ route('pendaftaran.index') }}">MBKM</a>
+            {{-- <a class="nav-link" aria-current="page" href="{{ route('pendaftaran.index') }}">MBKM</a> --}}
           </li>
         </ul>
 
         <ul class="navbar-nav ml-auto">
-            <li style="padding-top: 6px;">User</li>
           <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a class="nav-link {{Request::is ('profil-mhs*') ? 'text-success' : '' }} dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              @if (Str::length(Auth::guard('dosen')->user()) > 0)
+              {{Auth::guard('dosen')->user()->nama}}
+              @elseif (Str::length(Auth::guard('web')->user()) > 0)
+              {{Auth::guard('web')->user()->nama}}
+              @elseif (Str::length(Auth::guard('mahasiswa')->user()) > 0)
+              {{Auth::guard('mahasiswa')->user()->nama}}
+              @endif
               </a>
               <div>
-              <ul class="dropdown-menu dropdown-menu-end"style="border-radius:10px;" aria-labelledby="navbarDropdown">
+                <ul class="dropdown-menu dropdown-menu-end"style="border-radius:10px;" aria-labelledby="navbarDropdown">
+                {{-- @if (Str::length(Auth::guard('dosen')->user()) > 0)
+                @if (Auth::guard('dosen')->user())
 
-              <li>
-              <a class="nav-link dropdown-item" href="#">
-                  <i class="fas fa-key"></i> <span>Ubah Password</span>
-              </a>
-              </li>
-                  <li>
-                    {{-- <form action="{{ route('logout') }}" method="POST"> --}}
-                        {{-- @csrf --}}
-                        <a href="{{ route('login.akun') }}">
-                        <button type="submit" class="dropdown-item">Logout</button>
-                        </a>
-                    {{-- </form> --}}
+                <li class="pp"><a class="dropdown-item" href="/profil-dosen"><i class="bi bi-person-circle mr-2"></i>Profil</a></li>
+                @endif
+                @endif  --}}
+                @if (Str::length(Auth::guard('dosen')->user()) > 0)
+                @if (Auth::guard('dosen')->user())
+                <li>
+                <a class="nav-link dropdown-item" href="/profil-dosen/editpassworddsn/">
+                    <i class="bi bipw bi-key"></i> <span>Ubah Password</span>
+                </a>
                 </li>
-              </ul>
+                @endif
+                @endif
+
+                @if (Str::length(Auth::guard('mahasiswa')->user()) > 0)
+                @if (Auth::guard('mahasiswa')->user())
+                <li>
+                <a class="nav-link {{Request::is ('profil-mhs*') ? 'text-success' : '' }} dropdown-item " href="/profil-mhs/editpasswordmhs/">
+                    <i class="bi bipw bi-key"></i> <span>Ubah Password</span>
+                </a>
+                </li>
+                @endif
+                @endif
+
+                @if (Str::length(Auth::guard('web')->user()) > 0)
+                @if (Auth::guard('web')->user())
+                <li>
+                <a class="nav-link dropdown-item" href="/profil-staff/editpasswordstaff/">
+                    <i class="bi bipw bi-key"></i> <span>Ubah Password</span>
+                </a>
+                </li>
+                @endif
+                @endif
+
+                <form action="/logout" method="POST">
+                    @csrf
+                    <li>
+                    <button type="submit" class="dropdown-item">
+                        <i class="bi bi-box-arrow-right"></i> <span>Keluar</span>
+                    </button>
+                    </li>
+                </form>
+                </ul>
               </div>
           </li>
       </ul>
@@ -115,8 +151,8 @@
   <!-- Main Footer -->
   <footer class="main-footer bg-dark">
   <div class="container kaki-bawah">
-  <strong>Dikembangkan oleh Prodi Teknik Informatika UNRI</strong>
-</div>
+  <strong>Dikembangkan oleh Muhammad Abdullah Qosim, Ilmi Fajar Ramadhan, dan Fitra Ramadhan</strong>
+    </div>
     <!-- Default to the left -->
   </footer>
 

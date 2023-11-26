@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\dosen;
-use App\Models\role;
+use App\Models\Dosen;
+use App\Models\Mahasiswa;
+use App\Models\Role;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,18 +28,35 @@ class logincontroller extends Controller
     }
 
 
-    // public function authenticate(Request $request)
-    // {
-    //     if (Auth::guard('dosen')->attempt(['nip' => $request->username, 'password' => $request->password])) {
-    //         return redirect('/approve');
-    //     } elseif (Auth::guard('mahasiswa')->attempt(['nim' => $request->username, 'password' => $request->password])) {
-    //         return redirect('/pendaftaran');
-    //     }
+    public function postlogin(Request $request)
+    {
+        // dd($request->all());
+        if (Auth::guard('dosen')->attempt(['nip' => $request->username, 'password' => $request->password])) {
+            $request->session()->regenerate();
+            return redirect('/prodi');
+        } elseif (Auth::guard('web')->attempt(['username' => $request->username, 'password' => $request->password])) {
+            $request->session()->regenerate();
+            return redirect('/staff');
+        } elseif (Auth::guard('mahasiswa')->attempt(['nim' => $request->username, 'password' => $request->password])) {
+            $request->session()->regenerate();
+            return redirect('/mahasiswa');
+        }
 
 
-    //     return redirect('/')->with('loginError', 'Login Gagal!');
-    // }
+        return redirect('/')->with('loginError', 'Login Gagal!');
+    }
 
+    public function logout()
+    {
+        if (Auth::guard('dosen')->check()) {
+            Auth::guard('dosen')->logout();
+        } elseif (Auth::guard('mahasiswa')->check()) {
+            Auth::guard('mahasiswa')->logout();
+        } elseif (Auth::guard('web')->check()) {
+            Auth::guard('web')->logout();
+        }
+        return redirect('/');
+    }
     // public function logout()
     // {
     //     if (Auth::guard('dosen')->check()) {
@@ -51,7 +69,7 @@ class logincontroller extends Controller
     //     return redirect('/');
     // }
 
-    // public function authenticate(Request $request)
+    // public function postlogin(Request $request)
     // {
 
     //     $validator = Validator::make($request->all(), [

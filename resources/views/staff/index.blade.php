@@ -5,16 +5,19 @@
 @endphp
 
 @section('title')
-    SITEI MBKM | MBKM Prodi
+    SITEI MBKM | MBKM Staff
 @endsection
 
 @section('sub-title')
-    MBKM Mahasiswa Prodi
+    MBKM Mahasiswa Staff
 @endsection
 
 @section('content')
 
-
+<a href="{{route('staff.indexmhs')}}" class="btn mahasiswa btn-success mb-3">Daftar Mahasiswa</a>
+<a href="{{route('staff.indexdsn')}}" class="btn mahasiswa btn-success mb-3">Daftar Dosen</a>
+<a href="{{route('staff.indexstaff')}}" class="btn mahasiswa btn-success mb-3">Daftar Staff</a>
+<br>
 <div class="container card p-4">
 
     <div class="container-fluid">
@@ -35,21 +38,38 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach ($mbkm as $km )
                     <tr>
-                        <td class="text-center">1</td>
-                        <td class="text-center">2007135748</td>
-                        <td class="text-center">Muhammad Abdullah Qosim</td>
-                        <td class="text-center">Genap</td>
-                        <td class="text-center">Magang</td>
-                        <td class="text-center">Bank Indonesia</td>
-                        <td class="text-center ">FullStack Web Developer</td>
-                        <td class="text-center bg-success">Konversi Diterima</td>
-                        <td class="text-center">16 Februari 2023 - 30 Juni 2023</td>
-                        <td class="text-center text-danger text-bold">25 Januari 2023</td>
+                        <td class="text-center">{{ $loop->iteration }}</td>
+                        <td class="text-center">{{ $km->mahasiswa->nim }}</td>
+                        <td class="text-center">{{ $km->mahasiswa->nama }}</td>
+                        <td class="text-center">{{ $km->mahasiswa->angkatan }}</td>
+                        <td class="text-center">{{ $km->program->name }}</td>
+                        <td class="text-center">{{ $km->perusahaan }}</td>
+                        <td class="text-center ">{{ $km->judul }}</td>
+                        @if ($km->status == 'Nilai sudah keluar')
+                            <td class="text-center bg-success">{{$km->status}}</td>
+                        @elseif($km->status == 'Ditolak')
+                            <td class="text-center bg-danger">{{ $km->status }}</td>
+                        @else
+                            <td class="text-center bg-warning">{{$km->status}}</td>
+                        @endif
+                        <td class="text-center">{{ $km->priode_kegiatan }}</td>
+                        <td class="text-center text-danger text-bold">{{ $km->batas }}</td>
                         <td class="text-center">
-                            <a href="{{ route('pdf') }}" target="_blank" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zM432 248a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg></a>
-                        </td>
-                    </tr>
+                        @if ($km->status == 'Konversi diterima')
+                            <form action="/staff/approve/{{$km->id}}" method="POST">
+                            @csrf
+                            <a href="{{ route('revisi.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
+                            <a href="{{ route('pdf') }}" target="_blank" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Print Surat Konversi"><i class="fas fa-print"></i></a>
+                            <button type="submit" class="badge btn btn-info p-1 mb-1"><i class="fas fa-check"></i></button>
+                            </form>
+                        @else
+                            <a href="{{ route('revisi.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
+                        @endif
+                            </td>
+                        </tr>
+                    @endforeach
             </tbody>
         </table>
     </div>

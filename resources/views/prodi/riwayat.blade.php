@@ -23,7 +23,7 @@
 <div class="container card p-4">
 
     <ol class="breadcrumb col-lg-12">
-        <li class="breadcrumb-item"><a class="breadcrumb-item" href="{{ route('prodi.index') }}">Jadwal</a></li>
+        <li class="breadcrumb-item"><a class="breadcrumb-item" href="{{ route('prodi.index') }}">MBKM</a></li>
         <li class="breadcrumb-item"><a class="breadcrumb-item active fw-bold text-black" href="{{ route('prodi.riwayat') }}">Riwayat</a></li>  
       </ol>
 
@@ -46,51 +46,31 @@
             </tr>
         </thead>
         <tbody>
-                <tr>
-                    <td class="text-center">1</td>
-                    <td class="text-center">2007135748</td>
-                    <td class="text-center">Fitra Ramadhan</td>
-                    <td class="text-center">Ganjil</td>
-                    <td class="text-center">Studi Independen</td>
-                    <td class="text-center">Arkatama Solusindo</td>
-                    <td class="text-center ">FullStack Web Developer</td>
-                    <td class="text-center bg-success">Selesai MBKM</td>
-                    <td class="text-center">30 Oktober 2023 - 30 Desember 2023</td>
-                    <td class="text-center text-danger text-bold">25 Oktober 2023</td>
-                    <td class="text-center">
-                        <a href="{{ route('revisi.detail') }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center">2</td>
-                    <td class="text-center">2007135748</td>
-                    <td class="text-center">Muhammad Abdullah Qosim</td>
-                    <td class="text-center">Genap</td>
-                    <td class="text-center">Magang</td>
-                    <td class="text-center">Petrokimia</td>
-                    <td class="text-center ">Human Resource</td>
-                    <td class="text-center bg-success">Selesai MBKM</td>
-                    <td class="text-center">15 Juli 2023 - 30 Oktober 2023</td>
-                    <td class="text-center text-danger text-bold">10 Juli 2023</td>
-                    <td class="text-center">
-                        <a href="{{ route('revisi.detail') }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center">3</td>
-                    <td class="text-center">2007135748</td>
-                    <td class="text-center">Ilmi Fajar Ramadhan</td>
-                    <td class="text-center">Genap</td>
-                    <td class="text-center">Magang</td>
-                    <td class="text-center">Petrokimia</td>
-                    <td class="text-center ">Human Resource</td>
-                    <td class="text-center bg-success">Selesai MBKM</td>
-                    <td class="text-center">15 Juli 2023 - 30 Oktober 2023</td>
-                    <td class="text-center text-danger text-bold">10 Juli 2023</td>
-                    <td class="text-center">
-                        <a href="{{ route('revisi.detail') }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
-                    </td>
-                </tr>
+            @foreach ($mbkm as $km )
+            @if ($km->status == 'Nilai sudah keluar')
+            <tr>
+                <td class="text-center">{{ $loop->iteration }}</td>
+                <td class="text-center">{{ $km->mahasiswa->nim }}</td>
+                <td class="text-center">{{ $km->mahasiswa->nama }}</td>
+                <td class="text-center">{{ $km->mahasiswa->angkatan }}</td>
+                <td class="text-center">{{ $km->program->name }}</td>
+                <td class="text-center">{{ $km->perusahaan }}</td>
+                <td class="text-center ">{{ $km->judul }}</td>
+                @if ($km->status == 'Nilai sudah keluar')
+                    <td class="text-center bg-success">{{$km->status}}</td>
+                @elseif($km->status == 'Ditolak')
+                    <td class="text-center bg-danger">{{ $km->status }}</td>
+                @else
+                    <td class="text-center bg-warning">{{$km->status}}</td>
+                @endif
+                <td class="text-center">{{ $km->priode_kegiatan }}</td>
+                <td class="text-center text-danger text-bold">{{ $km->batas }}</td>
+                <td class="text-center">
+                   <a href="{{ route('revisi.detail') }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
+                </td>
+            </tr>
+            @endif
+            @endforeach
         </tbody>
 
 

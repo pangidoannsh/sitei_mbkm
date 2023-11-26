@@ -38,24 +38,28 @@
         @endif
 
 
-        <form class="form-login" action="#" method="#" class="text-center mt-5">
-          @csrf
+        <form class="form-login" action="{{ route('login.postlogin') }}" method="POST" class="text-center mt-5">
+            @csrf
 
-            <h1 class=" h3 mb-4 fw-bold">Selamat Datang!</h1>
+              <h1 class=" h3 mb-4 fw-bold">Selamat Datang!</h1>
 
-            <div class="form-floating mt-5">
-            <input type="text" class="form-control" name="nim" id="nim" placeholder="NIM" autofocus required>
-            <label class="label-nim" for="nim">NIP/NIM</label>
+              <div class="form-floating mt-5">
+              <input type="text" class="form-control @error('username') is-invalid @enderror" name="username" id="username" value="{{ old('username') }}" placeholder="username" autofocus required>
+              <label class="label-nim" for="username">NIP/NIM</label>
+              @error('username')
+                  <div class="invalid-feedback">
+                    {{$message}}
+                  </div>
+              @enderror
+              </div>
 
-            </div>
+              <div class="form-floating">
+              <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+              <label for="password">Password</label>
+              </div>
 
-            <div class="form-floating">
-            <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
-            <label for="password">Password</label>
-            </div>
-
-            <a href="{{ route('login.akun') }}"><button class="mt-4 w-100 btn btn-lg btn-success rounded-pill border" type="button">Log in</button></a>
-        </form>
+              <button class="mt-4 w-100 btn btn-lg btn-success rounded-pill border" type="submit">Log in</button>
+          </form>
         <small class=" kecil d-block text-center mt-3">Belum Terdaftar? <b>Hubungi Staff Jurusan!</b></small>
     </main></div>
     </div>

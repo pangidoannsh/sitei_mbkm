@@ -6,10 +6,7 @@ use App\http\controllers\logincontroller;
 use App\http\controllers\mahasiswacontroller;
 use App\http\controllers\usulancontroller;
 use App\http\controllers\sertifikatcontroller;
-use App\http\controllers\nilaimbkmcontroller;
-use App\http\controllers\konversicontroller;
 use App\http\controllers\matkulcontroller;
-use App\http\controllers\pendaftarancontroller;
 use App\http\controllers\prodicontroller;
 use App\http\controllers\detailcontroller;
 use App\http\controllers\staffcontroller;
@@ -23,60 +20,92 @@ use App\http\controllers\dosencontroller;
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| be assigned to the "web" group ['middleware' =>[group. Make ]],
 |
 */
-
+Route::group(['middleware' => 'prevent-back-history'],function(){
 // login
 Route::get('/', function () {
     return view('login.index');
 })->name('login');
+
+
+Route::post('/', [LoginController::class, 'postlogin'])->name('login.postlogin');
 Route::get ('/login', [logincontroller::class, 'akun'])->name('login.akun');
-// Route::post ('/login', [logincontroller::class, 'authenticate'])->name('login.authenticate');
+// Route::post ('/', [logincontroller::class, 'authenticate'])->name('login.authenticate');
 // Route::post ('/login', [logincontroller::class, 'authenticate'])->name('login.authenticate');
 // Route::get('/', [LoginController::class, 'index']);
 // Route::post('/', [LoginController::class, 'postlogin'])->name('login');
 
+Route::group(['middleware' => ['auth:dosen,web,mahasiswa']], function () {
+    Route::post('/logout', [LoginController::class, 'logout']);
+
+});
 
 // Route::middleware(['auth'])->group(function() {
 
-    // Route::middleware('role:prodi')->group(function() {
+    Route::group(['middleware' => ['auth:mahasiswa']], function () {
     // mahasiswa
     Route::get('/mahasiswa', [mahasiswacontroller::class, 'index'])->name('mahasiswa.index');
-    Route::get('/mahasiswa/create', [mahasiswacontroller::class, 'create'])->name('mahasiswa.create');
-
-    Route::get('/pendaftaran', [pendaftarancontroller::class, 'index'])->name('pendaftaran.index');
+    Route::delete('/mahasiswa/{id}', [mahasiswacontroller::class, 'destroy'])->name('mahasiswa.destroy');
+    Route::post('/mahasiswa/usulan', [mahasiswacontroller::class, 'store'])->name('mahasiswa.store');
+    Route::post('/mahasiswa/uploaded/{id}', [mahasiswacontroller::class, 'uploaded'])->name('mahasiswa.uploaded');
 
     Route::get('/usulan', [usulancontroller::class, 'index'])->name('usulan.index');
     Route::get('/usulan/create', [usulancontroller::class, 'create'])->name('usulan.create');
 
-    Route::get('/sertifikat', [sertifikatcontroller::class, 'index'])->name('sertifikat.index');
     Route::get('/sertifikat/create', [sertifikatcontroller::class, 'create'])->name('sertifikat.create');
-
-    Route::get('/nilaimbkm', [nilaimbkmcontroller::class, 'index'])->name('nilaimbkm.index');
-    Route::get('/nilaimbkm/create', [nilaimbkmcontroller::class, 'create'])->name('nilaimbkm.create');
-
-    Route::get('/konversi', [konversicontroller::class, 'index'])->name('konversi.index');
-    Route::get('/konversi/create', [konversicontroller::class, 'create'])->name('konversi.create');
-
+    Route::post('/sertifikat/create', [sertifikatcontroller::class, 'store'])->name('sertifikat.store');
+    Route::post('/sertifikat/create/konversi', [sertifikatcontroller::class, 'storekonversi'])->name('sertifikat.storekonversi');
+    Route::delete('/sertifikat/create/{id}', [sertifikatcontroller::class, 'destroykonversi'])->name('sertifikat.destroykonversi');
+    });
     Route::get('/revisi', [detailcontroller::class, 'index'])->name('revisi.index');
-        // });
 
-    // Route::middleware('role:staff')->group(function() {
+    Route::group(['middleware' => ['auth:dosen']], function () {
+    Route::get('/prodi', [prodicontroller::class, 'index'])->name('prodi.index');
+    Route::post('/prodi/approve/{id}', [prodicontroller::class, 'approveusulan'])->name('prodi.approveusulan');
+    Route::post('/prodi/approvekonversi/{id}', [prodicontroller::class, 'approvekonversi'])->name('prodi.approvekonversi');
+    Route::post('/prodi/tolakusulan/{id}', [prodicontroller::class, 'tolakusulan'])->name('prodi.tolakusulan');
+    Route::post('/prodi/tolakkonversi/{id}', [prodicontroller::class, 'tolakkonversi'])->name('prodi.tolakkonversi');
+
+    Route::get('/riwayat', [prodicontroller::class, 'riwayat'])->name('prodi.riwayat');
+    Route::get('/sert', [prodicontroller::class, 'sertifikat'])->name('prodi.sertifikat');
+    Route::get('/convert', [prodicontroller::class, 'konversi'])->name('prodi.konversi');
+    });
+
+    Route::group(['middleware' => ['auth:web']], function () {
         // staff
         Route::get('/staff', [staffcontroller::class, 'index'])->name('staff.index');
+        Route::get('/staff/mahasiswa', [staffcontroller::class, 'indexmhs'])->name('staff.indexmhs');
+        Route::get('/staff/mahasiswa/create', [staffcontroller::class, 'createmhs'])->name('staff.createmhs');
+        Route::get('/staff/mahasiswa/edit/{mahasiswa:id}', [staffcontroller::class, 'editmhs'])->name('staff.editmhs');
+        Route::put('/staff/mahasiswa/edit/{mahasiswa:id}', [staffcontroller::class, 'updatemhs'])->name('staff.updatemhs');
+        Route::post('/staff/mahasiswa/create', [staffcontroller::class, 'storemhs'])->name('staff.storemhs');
+        Route::delete('/staff/mahasiswa/{mahasiswa:id}', [staffcontroller::class, 'destroymhs'])->name('staff.detsroymhs');
+
+        Route::get('/staff/dosen', [staffcontroller::class, 'indexdsn'])->name('staff.indexdsn');
+        Route::get('/staff/dosen/create', [staffcontroller::class, 'createdsn'])->name('staff.createdsn');
+        Route::get('/staff/dosen/edit/{dosen:id}', [staffcontroller::class, 'editdsn'])->name('staff.editdsn');
+        Route::put('/staff/dosen/edit/{dosen:id}', [staffcontroller::class, 'updatedsn'])->name('staff.updatedsn');
+        Route::post('/staff/dosen/create', [staffcontroller::class, 'storedsn'])->name('staff.storedsn');
+        Route::delete('/staff/dosen/{dosen:id}', [staffcontroller::class, 'destroydsn'])->name('staff.destroydsn');
+
+        Route::get('/staff/user', [staffcontroller::class, 'indexstaff'])->name('staff.indexstaff');
+        Route::get('/staff/user/create', [staffcontroller::class, 'createstaff'])->name('staff.createstaff');
+        Route::get('/staff/user/edit/{user:id}', [staffcontroller::class, 'editstaff'])->name('staff.editstaff');
+        Route::put('/staff/user/edit/{user:id}', [staffcontroller::class, 'updatestaff'])->name('staff.updatestaff');
+        Route::post('/staff/user/create', [staffcontroller::class, 'storestaff'])->name('staff.storestaff');
+        Route::delete('/staff/user/{user:id}', [staffcontroller::class, 'destroystaff'])->name('staff.destroystaff');
+
+        Route::post('/staff/approve/{id}', [staffcontroller::class, 'approve'])->name('staff.approve');
         Route::get('/staff-print', [staffcontroller::class, 'print'])->name('staff.print');
         Route::get('/donwload-konversi-pdf', [staffcontroller::class, 'downloadpdf'])->name('pdf');
 
-        // });
-    // Route::middleware('role:prodi')->group(function() {
-        // prodi
-        Route::get('/prodi', [prodicontroller::class, 'index'])->name('prodi.index');
-        Route::get('/sert', [prodicontroller::class, 'sertifikat'])->name('prodi.sertifikat');
-        Route::get('/convert', [prodicontroller::class, 'konversi'])->name('prodi.konversi');
-        Route::get('/riwayat', [prodicontroller::class, 'riwayat'])->name('prodi.riwayat');
 
-    // });
+    // Route::group(['middleware' =>['auth:prodi']], function() {
+    //     // prodi
+
+    });
 
     Route::get('/user', [usercontroller::class, 'index'])->name('user.index');
     Route::get('/user/create', [usercontroller::class, 'create'])->name('user.create');
@@ -87,12 +116,12 @@ Route::get ('/login', [logincontroller::class, 'akun'])->name('login.akun');
     Route::post('/dosen', [dosencontroller::class, 'store'])->name('dosen.store');
 
 
-    Route::get('/revisi/detail', [detailcontroller::class, 'detail'])->name('revisi.detail');
+    Route::get('/revisi/detail/{id}', [detailcontroller::class, 'detail'])->name('revisi.detail');
 
     Route::get('/matkul', [matkulcontroller::class, 'index'])->name('matkul.index');
     Route::get('/matkul/create', [matkulcontroller::class, 'create'])->name('matkul.create');
 
     Route::post('/logout', [logincontroller::class, 'logout'])->name('logout');
+    // });
 
-
-// });
+});

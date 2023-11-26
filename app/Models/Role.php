@@ -14,4 +14,12 @@ class Role extends Model
     {
         return $this->hasMany(user::class);
     }
+    public function mahasiswa()
+    {
+        return $this->hasMany(mahasiswa::class);
+    }
+    public function dosen()
+    {
+        return $this->hasMany(dosen::class);
+    }
 }
