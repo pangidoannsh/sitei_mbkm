@@ -55,7 +55,7 @@
                     <td class="text-center">{{ $loop->iteration }}</td>
                     <td class="text-center">{{ $km->mahasiswa->nim }}</td>
                     <td class="text-center">{{ $km->mahasiswa->nama }}</td>
-                    <td class="text-center">{{ $km->mahasiswa->angkatan }}</td>
+                    <td class="text-center">{{ $km->periode_mbkm }}</td>
                     <td class="text-center">{{ $km->program->name }}</td>
                     <td class="text-center">{{ $km->perusahaan }}</td>
                     <td class="text-center ">{{ $km->judul }}</td>
@@ -72,27 +72,21 @@
                     <td class="text-center text-danger text-bold">{{ $km->batas }}</td>
                     <td class="text-center">
                     @if ($km->status == 'Usulan')
-                        <a href="{{ route('revisi.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
+                        <a href="{{ route('mahasiswa.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
                         <form action="/prodi/approve/{{$km->id}}" method="POST"  style="display: inline;">
                             @csrf
                         <button type="submit" class="badge btn btn-info p-1 mb-1"><i class="fas fa-check"></i></button>
                         </form>
-                        <form action="/prodi/tolakusulan/{{ $km->id }}" method="POST"  style="display: inline;">
-                            @csrf
-                            <button type="submit" class="badge btn btn-danger p-1.5 mb-2"><i class="fas fa-times"></i></button>
-                        </form>
+                            <button type="button" onclick="tolakUsulanmbkmKaprodi()" class="badge btn btn-danger p-1.5 mb-2"><i class="fas fa-times"></i></button>
                     @elseif($km->status == 'Usulan konversi nilai')
-                        <a href="{{ route('revisi.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
+                        <a href="{{ route('mahasiswa.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
                         <form action="/prodi/approvekonversi/{{$km->id}}" method="POST" style="display: inline;">
                             @csrf
                         <button type="submit" class="badge btn btn-info p-1 mb-1"><i class="fas fa-check"></i></button>
                         </form>
-                        <form action="/prodi/tolakkonversi/{{ $km->id }}" method="POST" style="display: inline;">
-                            @csrf
-                            <button type="submit" class="badge btn btn-danger p-1.5 mb-2"><i class="fas fa-times"></i></button>
-                        </form>
+                            <button type="button" onclick="tolakUsulankonversiKaprodi()" class="badge btn btn-danger p-1.5 mb-2"><i class="fas fa-times"></i></button>
                     @else
-                       <a href="{{ route('revisi.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
+                       <a href="{{ route('mahasiswa.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
                     @endif
 
                     </td>
@@ -109,3 +103,70 @@
 
 @endsection
 
+@push('scripts')
+@foreach ($mbkm as $km)
+<script>
+
+function tolakUsulanmbkmKaprodi() {
+     Swal.fire({
+            title: 'Tolak Usulan MBKM',
+            text: 'Apakah Anda Yakin?',
+            icon: 'question',
+            showCancelButton: true,
+            cancelButtonText: 'Batal',
+            confirmButtonText: 'Tolak',
+            confirmButtonColor: '#dc3545'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Tolak Usulan MBKM',
+                    html: `
+                        <form id="reasonForm" action="/prodi/tolakusulan/{{ $km->id }}" method="POST">
+                        @method('put')
+                            @csrf
+                            <label for="catatan">Alasan Penolakan :</label>
+                            <textarea class="form-control" id="catatan" name="catatan" rows="4" cols="50" required></textarea>
+                            <br>
+                            <button type="submit" class="btn btn-danger p-2 px-3">Kirim</button>
+                            <button type="button" onclick="Swal.close();" class="btn btn-secondary p-2 px-3">Batal</button>
+                        </form>
+                    `,
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                });
+            }
+        });
+    }
+function tolakUsulankonversiKaprodi() {
+     Swal.fire({
+            title: 'Tolak Konversi MBKM',
+            text: 'Apakah Anda Yakin?',
+            icon: 'question',
+            showCancelButton: true,
+            cancelButtonText: 'Batal',
+            confirmButtonText: 'Tolak',
+            confirmButtonColor: '#dc3545'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Tolak Usulan MBKM',
+                    html: `
+                        <form id="reasonForm" action="/prodi/tolakkonversi/{{ $km->id }}" method="POST">
+                        @method('put')
+                            @csrf
+                            <label for="catatan">Alasan Penolakan :</label>
+                            <textarea class="form-control" id="catatan" name="catatan" rows="4" cols="50" required></textarea>
+                            <br>
+                            <button type="submit" class="btn btn-danger p-2 px-3">Kirim</button>
+                            <button type="button" onclick="Swal.close();" class="btn btn-secondary p-2 px-3">Batal</button>
+                        </form>
+                    `,
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                });
+            }
+        });
+    }
+</script>
+@endforeach
+@endpush()

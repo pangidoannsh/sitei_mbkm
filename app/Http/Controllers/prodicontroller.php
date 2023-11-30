@@ -29,11 +29,12 @@ class prodicontroller extends Controller
 
     public function tolakusulan(Request $request, $id)
     {
-        // $request->validate([
-        // 'alasan' => 'required',
-        // ]);
+        $request->validate([
+        'catatan' => 'required',
+        ]);
         $km = mbkm::find($id);
         $km->status = 'Ditolak';
+        $km->catatan = $request->catatan;
         $km->updated_at = date('Y-m-d H:i:s');
         $km->update();
         return  back();
@@ -50,11 +51,12 @@ class prodicontroller extends Controller
 
     public function tolakkonversi(Request $request, $id)
         {
-            // $request->validate([
-            // 'alasan' => 'required',
-            // ]);
+            $request->validate([
+            'catatan' => 'required',
+            ]);
             $km = mbkm::find($id);
-            $km->status = 'Konversi ditolak';
+            $km->status = 'Konversi Ditolak';
+            $km->catatan = $request->catatan;
             $km->updated_at = date('Y-m-d H:i:s');
             $km->update();
             return  back();

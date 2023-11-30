@@ -8,7 +8,6 @@ use App\http\controllers\usulancontroller;
 use App\http\controllers\sertifikatcontroller;
 use App\http\controllers\matkulcontroller;
 use App\http\controllers\prodicontroller;
-use App\http\controllers\detailcontroller;
 use App\http\controllers\staffcontroller;
 use App\http\controllers\usercontroller;
 use App\http\controllers\dosencontroller;
@@ -31,7 +30,6 @@ Route::get('/', function () {
 
 
 Route::post('/', [LoginController::class, 'postlogin'])->name('login.postlogin');
-Route::get ('/login', [logincontroller::class, 'akun'])->name('login.akun');
 // Route::post ('/', [logincontroller::class, 'authenticate'])->name('login.authenticate');
 // Route::post ('/login', [logincontroller::class, 'authenticate'])->name('login.authenticate');
 // Route::get('/', [LoginController::class, 'index']);
@@ -50,6 +48,8 @@ Route::group(['middleware' => ['auth:dosen,web,mahasiswa']], function () {
     Route::delete('/mahasiswa/{id}', [mahasiswacontroller::class, 'destroy'])->name('mahasiswa.destroy');
     Route::post('/mahasiswa/usulan', [mahasiswacontroller::class, 'store'])->name('mahasiswa.store');
     Route::post('/mahasiswa/uploaded/{id}', [mahasiswacontroller::class, 'uploaded'])->name('mahasiswa.uploaded');
+    Route::get('/profil-mhs/editpasswordmhs', [mahasiswacontroller::class, 'editpswmhs']);
+    Route::put('/profil-mhs/editpasswordmhs', [mahasiswacontroller::class, 'updatepswmhs']);
 
     Route::get('/usulan', [usulancontroller::class, 'index'])->name('usulan.index');
     Route::get('/usulan/create', [usulancontroller::class, 'create'])->name('usulan.create');
@@ -59,14 +59,16 @@ Route::group(['middleware' => ['auth:dosen,web,mahasiswa']], function () {
     Route::post('/sertifikat/create/konversi', [sertifikatcontroller::class, 'storekonversi'])->name('sertifikat.storekonversi');
     Route::delete('/sertifikat/create/{id}', [sertifikatcontroller::class, 'destroykonversi'])->name('sertifikat.destroykonversi');
     });
-    Route::get('/revisi', [detailcontroller::class, 'index'])->name('revisi.index');
 
     Route::group(['middleware' => ['auth:dosen']], function () {
     Route::get('/prodi', [prodicontroller::class, 'index'])->name('prodi.index');
-    Route::post('/prodi/approve/{id}', [prodicontroller::class, 'approveusulan'])->name('prodi.approveusulan');
-    Route::post('/prodi/approvekonversi/{id}', [prodicontroller::class, 'approvekonversi'])->name('prodi.approvekonversi');
-    Route::post('/prodi/tolakusulan/{id}', [prodicontroller::class, 'tolakusulan'])->name('prodi.tolakusulan');
-    Route::post('/prodi/tolakkonversi/{id}', [prodicontroller::class, 'tolakkonversi'])->name('prodi.tolakkonversi');
+    Route::get('/prodi', [prodicontroller::class, 'index'])->name('prodi.index');
+    Route::post('/prodi/approve/{mbkm:id}', [prodicontroller::class, 'approveusulan'])->name('prodi.approveusulan');
+    Route::post('/prodi/approvekonversi/{mbkm:id}', [prodicontroller::class, 'approvekonversi'])->name('prodi.approvekonversi');
+    Route::put('/prodi/tolakusulan/{mbkm:id}', [prodicontroller::class, 'tolakusulan'])->name('prodi.tolakusulan');
+    Route::put('/prodi/tolakkonversi/{mbkm:id}', [prodicontroller::class, 'tolakkonversi'])->name('prodi.tolakkonversi');
+    Route::get('/dosen/editpassworddsn', [dosenController::class, 'editpswdsn'])->name('dosen.editpw');
+    Route::put('/dosen/editpassworddsn', [dosenController::class, 'updatepswdsn'])->name('dosen.updatepw');
 
     Route::get('/riwayat', [prodicontroller::class, 'riwayat'])->name('prodi.riwayat');
     Route::get('/sert', [prodicontroller::class, 'sertifikat'])->name('prodi.sertifikat');
@@ -97,6 +99,8 @@ Route::group(['middleware' => ['auth:dosen,web,mahasiswa']], function () {
         Route::post('/staff/user/create', [staffcontroller::class, 'storestaff'])->name('staff.storestaff');
         Route::delete('/staff/user/{user:id}', [staffcontroller::class, 'destroystaff'])->name('staff.destroystaff');
 
+        Route::get('/profil-staff/editpasswordstaff', [staffcontroller::class, 'editpswstaff']);
+        Route::put('/profil-staff/editpasswordstaff', [staffcontroller::class, 'updatepswstaff']);
         Route::post('/staff/approve/{id}', [staffcontroller::class, 'approve'])->name('staff.approve');
         Route::get('/staff-print', [staffcontroller::class, 'print'])->name('staff.print');
         Route::get('/donwload-konversi-pdf', [staffcontroller::class, 'downloadpdf'])->name('pdf');
@@ -116,7 +120,7 @@ Route::group(['middleware' => ['auth:dosen,web,mahasiswa']], function () {
     Route::post('/dosen', [dosencontroller::class, 'store'])->name('dosen.store');
 
 
-    Route::get('/revisi/detail/{id}', [detailcontroller::class, 'detail'])->name('revisi.detail');
+    Route::get('/mahasiswa/detail/{id}', [mahasiswacontroller::class, 'detail'])->name('mahasiswa.detail');
 
     Route::get('/matkul', [matkulcontroller::class, 'index'])->name('matkul.index');
     Route::get('/matkul/create', [matkulcontroller::class, 'create'])->name('matkul.create');

@@ -7,6 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.98.0">
+    <link rel="shortcut icon" href="{{ asset('assets/imgs/UNRI.png') }}">
     <title>Login | SITEI</title>
 
 

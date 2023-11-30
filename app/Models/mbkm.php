@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Mahasiswa;
+use App\Models\Prodi;
+use App\Models\Konsentrasi;
+use App\Models\program;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

@@ -43,13 +43,15 @@
                         <td class="text-center">{{ $loop->iteration }}</td>
                         <td class="text-center">{{ $km->mahasiswa->nim }}</td>
                         <td class="text-center">{{ $km->mahasiswa->nama }}</td>
-                        <td class="text-center">{{ $km->mahasiswa->angkatan }}</td>
+                        <td class="text-center">{{ $km->periode_mbkm }}</td>
                         <td class="text-center">{{ $km->program->name }}</td>
                         <td class="text-center">{{ $km->perusahaan }}</td>
                         <td class="text-center ">{{ $km->judul }}</td>
                         @if ($km->status == 'Nilai sudah keluar')
                             <td class="text-center bg-success">{{$km->status}}</td>
                         @elseif($km->status == 'Ditolak')
+                            <td class="text-center bg-danger">{{ $km->status }}</td>
+                        @elseif($km->status == 'Konversi Ditolak')
                             <td class="text-center bg-danger">{{ $km->status }}</td>
                         @else
                             <td class="text-center bg-warning">{{$km->status}}</td>
@@ -60,12 +62,12 @@
                         @if ($km->status == 'Konversi diterima')
                             <form action="/staff/approve/{{$km->id}}" method="POST">
                             @csrf
-                            <a href="{{ route('revisi.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
+                            <a href="{{ route('mahasiswa.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
                             <a href="{{ route('pdf') }}" target="_blank" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Print Surat Konversi"><i class="fas fa-print"></i></a>
                             <button type="submit" class="badge btn btn-info p-1 mb-1"><i class="fas fa-check"></i></button>
                             </form>
                         @else
-                            <a href="{{ route('revisi.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
+                            <a href="{{ route('mahasiswa.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
                         @endif
                             </td>
                         </tr>

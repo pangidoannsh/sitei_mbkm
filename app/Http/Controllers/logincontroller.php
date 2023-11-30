@@ -23,10 +23,6 @@ class logincontroller extends Controller
         return view('login.index');
     }
 
-    public function akun(){
-        return view('login.akun');
-    }
-
 
     public function postlogin(Request $request)
     {

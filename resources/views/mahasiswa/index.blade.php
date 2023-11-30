@@ -57,7 +57,7 @@
             <div class="row biru mb-4">
             <div class="col">
                 <span class="mt-3 "> Tanggal Diterima <br></span>
-                <span class="mt-3  text-warning">18 November 2023</span>
+                <span class="mt-3  text-warning">{{ $km->batas }}</span>
             </div>
             <div class="col"><span class="mt-1 text"> Batas Unggah <br></span>
                 <strong class="mt-3 text-danger">Akhir Program<strong class="text-bold" id="#"></strong><br></strong>
@@ -94,7 +94,7 @@
             <div class="row biru mb-4">
             <div class="col">
                 <span class="mt-3 "> Tanggal Diterima <br></span>
-                <span class="mt-3  text-warning">18 November 2023</span>
+                <span class="mt-3  text-warning">{{ $km->batas }}</span>
             </div>
             <div class="col"><span class="mt-1 text"> Batas Unggah <br></span>
                 <strong class="mt-3 text-danger">Akhir Program<strong class="text-bold" id="#"></strong><br></strong>
@@ -104,6 +104,40 @@
             </div>
         </div>
 
+        @elseif ($km->status == 'MBKM sedang berjalan')
+            <ul class="bs4-order-tracking">
+                <li class="step active">
+                    <div>
+                        <i class="fas"></i>
+                </div>
+                <p class="mt-3"> USULAN MBKM</p>
+                </li>
+                <li class="step">
+                    <div><i class="fas "></i>
+                </div> <p class="mt-3">UPLOAD SERTIFIKAT DAN NILAI</p>
+            </li>
+                <li class="step">
+                    <div><i class="fas "></i>
+                </div> <p class="mt-3"> KONVERSI NILAI </p>
+            </li>
+                <li class="step">
+                    <div><i class="fas fa-truc"></i>
+                </div><p class="mt-3"> SELESAI PROGRAM </p>
+            </li>
+
+
+            <div class="row biru mb-4">
+            <div class="col">
+                <span class="mt-3 "> Tanggal Diterima <br></span>
+                <span class="mt-3  text-warning">{{ $km->batas }}</span>
+            </div>
+            <div class="col"><span class="mt-1 text"> Batas Unggah <br></span>
+                <strong class="mt-3 text-danger">Akhir Program<strong class="text-bold" id="#"></strong><br></strong>
+            </div>
+            <div class="col"><span class="mt-1 text">Status Konversi <br></span>
+                <strong class="mt-3 text-warning">Proses Konversi<strong class="text-bold" id="#"></strong><br></strong>
+            </div>
+        </div>
 
         @elseif ($km->status == 'Ditolak')
             <ul class="bs4-order-tracking">
@@ -130,7 +164,7 @@
             <div class="row biru mb-4">
             <div class="col">
                 <span class="mt-3 "> Tanggal Diterima <br></span>
-                <span class="mt-3  text-warning">18 November 2023</span>
+                <span class="mt-3  text-warning">{{ $km->batas }}</span>
             </div>
             <div class="col"><span class="mt-1 text"> Batas Unggah <br></span>
                 <strong class="mt-3 text-danger">Akhir Program<strong class="text-bold" id="#"></strong><br></strong>
@@ -166,7 +200,7 @@
                 <div class="row biru mb-4">
                 <div class="col">
                     <span class="mt-3 "> Tanggal Diterima <br></span>
-                    <span class="mt-3  text-warning">18 November 2023</span>
+                    <span class="mt-3  text-warning">{{ $km->batas }}</span>
                 </div>
                 <div class="col"><span class="mt-1 text"> Batas Unggah <br></span>
                     <strong class="mt-3 text-danger">Akhir Program<strong class="text-bold" id="#"></strong><br></strong>
@@ -201,7 +235,7 @@
             <div class="row biru mb-4">
             <div class="col">
                 <span class="mt-3 "> Tanggal Diterima <br></span>
-                <span class="mt-3  text-warning">18 November 2023</span>
+                <span class="mt-3  text-warning">{{ $km->batas }}</span>
             </div>
             <div class="col"><span class="mt-1 text"> Batas Unggah <br></span>
                 <strong class="mt-3 text-danger">Akhir Program<strong class="text-bold" id="#"></strong><br></strong>
@@ -214,39 +248,6 @@
 
         @elseif ($km->status == 'Nilai sudah keluar')
 
-            {{-- <ul class="bs4-order-tracking">
-                <li class="step active">
-                    <div>
-                        <i class="fas"></i>
-                </div>
-                <p class="mt-3"> USULAN MBKM</p>
-                </li>
-                <li class="step active">
-                    <div><i class="fas "></i>
-                </div> <p class="mt-3">UPLOAD SERTIFIKAT DAN NILAI</p>
-            </li>
-                <li class="step active">
-                    <div><i class="fas "></i>
-                </div> <p class="mt-3"> KONVERSI NILAI </p>
-            </li>
-                <li class="step">
-                    <div><i class="fas fa-truc"></i>
-                </div><p class="mt-3"> SELESAI PROGRAM </p>
-            </li> --}}
-            {{-- <div class="row biru mb-4">
-            <div class="col">
-                <span class="mt-3 "> Tanggal Diterima <br></span>
-                <span class="mt-3  text-warning">18 November 2023</span>
-            </div>
-            <div class="col"><span class="mt-1 text"> Batas Unggah <br></span>
-                <strong class="mt-3 text-danger">Akhir Program<strong class="text-bold" id="#"></strong><br></strong>
-            </div>
-            <div class="col"><span class="mt-1 text">Status Konversi <br></span>
-                <strong class="mt-3 text-warning">Proses Konversi<strong class="text-bold" id="#"></strong><br></strong>
-            </div>
-        </div> --}}
-
-        {{-- @elseif ($km->status == '') --}}
             <ul class="bs4-order-tracking">
                 <li class="step active">
                     <div>
@@ -271,7 +272,7 @@
             <div class="row biru mb-4">
             <div class="col">
                 <span class="mt-3 "> Tanggal Diterima <br></span>
-                <span class="mt-3  text-bold">18 November 2023</span>
+                <span class="mt-3  text-bold">{{ $km->batas }}</span>
             </div>
             <div class="col"><span class="mt-1 text"> Batas Unggah <br></span>
                 <strong class="mt-3 text-danger">Akhir Program<strong class="text-bold" id="#"></strong><br></strong>
@@ -280,14 +281,45 @@
                 <strong class="mt-3 text-warning">Proses Konversi<strong class="text-bold" id="#"></strong><br></strong>
             </div>
         </div>
+        @else
+        <ul class="bs4-order-tracking">
+            <li class="step">
+                <div>
+                    <i class="fas"></i>
+            </div>
+            <p class="mt-3"> USULAN MBKM</p>
+            </li>
+            <li class="step">
+                <div><i class="fas "></i>
+            </div> <p class="mt-3">UPLOAD SERTIFIKAT DAN NILAI</p>
+        </li>
+            <li class="step">
+                <div><i class="fas "></i>
+            </div> <p class="mt-3"> KONVERSI NILAI </p>
+        </li>
+            <li class="step">
+                <div><i class="fas fa-truc"></i>
+            </div><p class="mt-3"> SELESAI PROGRAM </p>
+        </li>
+
+
+        <div class="row biru mb-4">
+        <div class="col">
+            <span class="mt-3 "> Tanggal Diterima <br></span>
+            <span class="mt-3  text-warning">{{ $km->batas }}</span>
+        </div>
+        <div class="col"><span class="mt-1 text"> Batas Unggah <br></span>
+            <strong class="mt-3 text-danger">Akhir Program<strong class="text-bold" id="#"></strong><br></strong>
+        </div>
+        <div class="col"><span class="mt-1 text">Status Konversi <br></span>
+            <strong class="mt-3 text-warning">Proses Konversi<strong class="text-bold" id="#"></strong><br></strong>
+        </div>
+    </div>
         @endif
         @endforeach
 </div>
-{{-- @if ($mbkm->status == 'MBKM sedang berjalan')
 
-@else
 
-@endif --}}
 <button type="button" class="btn btn-success float-left mt-4" data-toggle="modal" data-target="#staticBackdrop">Tambah Usulan</button>
 {{-- <button type="button" class="btn btn-success float-left mt-4" data-toggle="modal" data-target="#staticBackdrop" disabled>Tambah Usulan</button> --}}
 <br>
@@ -309,6 +341,7 @@
                 <th class="text-center" scope="col">Lokasi MBKM</th>
                 <th class="text-center" scope="col">Judul MBKM</th>
                 <th class="text-center" scope="col">Status</th>
+                <th class="text-center" scope="col">Alasan</th>
                 <th class="text-center" scope="col">Periode Kegiatan</th>
                 <th class="text-center" scope="col">Batas Waktu</th>
                 <th class="text-center px-5" scope="col">Aksi</th>
@@ -319,7 +352,7 @@
                 <tr>
                     <td class="text-center">{{ $km->mahasiswa->nim }}</td>
                     <td class="text-center">{{ $km->mahasiswa->nama }}</td>
-                    <td class="text-center">{{ $km->mahasiswa->angkatan }}</td>
+                    <td class="text-center">{{ $km->periode_mbkm }}</td>
                     <td class="text-center">{{ $km->program->name }}</td>
                     <td class="text-center">{{ $km->perusahaan }}</td>
                     <td class="text-center ">{{ $km->judul }}</td>
@@ -328,15 +361,19 @@
                         <td class="text-center bg-success">{{$km->status}}</td>
                     @elseif($km->status == 'Ditolak')
                         <td class="text-center bg-danger">{{ $km->status }}</td>
+                    @elseif($km->status == 'Konversi Ditolak')
+                        <td class="text-center bg-danger">{{$km->status}}</td>
                     @else
                         <td class="text-center bg-warning">{{$km->status}}</td>
                     @endif
+
+                    <td class="text-center">{{ $km->catatan }}</td>
                     <td class="text-center">{{ $km->priode_kegiatan }}</td>
                     <td class="text-center text-danger text-bold">{{ $km->batas }}</td>
 
                     @if ($km->status == 'Usulan disetujui')
                         <td class="text-center">
-                            <a href="/revisi/detail/ {{($km->id)}}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
+                            <a href="/mahasiswa/detail/ {{($km->id)}}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
                             <a href="{{ route('sertifikat.create') }}" class="badge  " data-bs-toggle="tooltip" title="Unggah Sertifikat"><img height="25" width="25" src="/assets/img/add.png"  alt="..." class="zoom-image"></a>
                             <form action="/mahasiswa/uploaded/{{$km->id}}" method="POST" style="display: inline;">
                             @csrf
@@ -345,7 +382,7 @@
                         </td>
                     @elseif ($km->status == 'Konversi Ditolak')
                         <td class="text-center">
-                            <a href="/revisi/detail/ {{($km->id)}}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
+                            <a href="/mahasiswa/detail/ {{($km->id)}}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
                             <a href="{{ route('sertifikat.create') }}" class="badge  " data-bs-toggle="tooltip" title="Revisi Konversi"><img height="25" width="25" src="/assets/img/add.png"  alt="..." class="zoom-image"></a>
                             <form action="/mahasiswa/uploaded/{{$km->id}}" method="POST" style="display: inline;">
                                 @csrf
@@ -354,7 +391,7 @@
                         </td>
                     @elseif ($km->status == 'Ditolak')
                         <td class="text-center">
-                            <a href="/revisi/detail/ {{($km->id)}}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
+                            <a href="/mahasiswa/detail/ {{($km->id)}}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
                             <form action="{{ route('mahasiswa.destroy', $km->id) }}}}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
@@ -363,7 +400,7 @@
                         </td>
                     @else
                         <td class="text-center">
-                            <a href="/revisi/detail/ {{($km->id)}}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
+                            <a href="/mahasiswa/detail/ {{($km->id)}}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
                         </td>
                     @endif
                 </tr>
@@ -383,7 +420,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="{{ route('mahasiswa.store') }}" method="POST">
+        <form action="{{ route('mahasiswa.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
         <div class="modal-body">
             <div>
@@ -394,12 +431,16 @@
                             <input type="hidden" name="prodi_id" value="3">
                             <input type="hidden" name="konsentrasi_id" value="4">
 
+                            <div class="mb-3 field">
+                                <label class="form-label">Periode (Ganjil 2023)</label>
+                                <input type="text" id="periode_mbkm" name="periode_mbkm" class="form-control " >
 
+                            </div>
                             <label for="program" class="form-label">Program MBKM</label>
                             <select id="program_id" name="program_id"  class="form-select">
-                                <option value="1">Studi Independen</option>
-                                <option value="2">Magang</option>
-                                <option value="3">Lainnya</option>
+                                @foreach ($program as $pro )
+                                <option value="{{ $pro->id }}">{{ $pro->name }}</option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -425,7 +466,7 @@
                     <div class="mb-3 field">
                         <label for="formFile" class="form-label">Rincian Kegiatan (PDF)</label>
                         {{-- <input class="form-control" type="file" accept=".pdf" id="rincian" id="" name="rincian"> --}}
-                        <input type="text" id="rincian" name="rincian" class="form-control">
+                        <input class="form-control @error('rincian') is-invalid @enderror" type="file" accept=".jpg, .png, .pdf" id="rincian" name="rincian">
                     </div>
                     <div class="mb-3 field">
                         <label class="form-label">Periode Kegiatan (dd/mm/yyyy - dd/mm/yyyy)</label>

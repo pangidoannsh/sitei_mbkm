@@ -66,7 +66,7 @@
                 <td class="text-center">{{ $km->priode_kegiatan }}</td>
                 <td class="text-center text-danger text-bold">{{ $km->batas }}</td>
                 <td class="text-center">
-                   <a href="{{ route('revisi.detail') }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
+                   <a href="{{ route('mahasiswa.detail',$km->id) }}" class="badge btn btn-info p-1 mb-1" data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
                 </td>
             </tr>
             @endif

@@ -11,7 +11,7 @@
 @section('content')
 
 <div class="container-fluid">
-    <a href="{{ route('revisi.index') }}" class="badge bg-success p-2 mb-3 "> Kembali <a>
+    <a href="{{ route('mahasiswa.index') }}" class="badge bg-success p-2 mb-3 "> Kembali <a>
       </div>
 <form action="{{route('sertifikat.store')}}" method="POST" enctype="multipart/form-data">
     @csrf

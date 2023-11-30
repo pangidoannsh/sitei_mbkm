@@ -39,4 +39,38 @@ class dosencontroller extends Controller
 
         return redirect()->route('dosen.index');
     }
+
+    public function editpswdsn(Dosen $dosen)
+    {
+        return view('dosen.profil-editpsw', [
+            'dosen' => $dosen,
+        ]);
+    }
+
+    public function updatepswdsn()
+    {
+        request()->validate([
+            'password_lama' => ['required'],
+            'password' => ['required', 'min:5', 'max:255', 'confirmed'],
+        ]);
+
+        $current_password = auth()->user()->password;
+        $old_password = request('password_lama');
+        $dosen_id = auth()->user()->id;
+
+        if (Hash::check($old_password, $current_password)) {
+
+            $dosen = Dosen::find($dosen_id);
+
+            $dosen->password = Hash::make(request('password'));
+
+            if ($dosen->save()) {
+                return redirect('/prodi')->with('message', 'Password Berhasil Diedit!');
+            } else {
+                return back()->with('message', 'Password Salah!');
+            }
+        } else {
+            return back()->with('message', 'Password Salah!');
+        }
+    }
 }

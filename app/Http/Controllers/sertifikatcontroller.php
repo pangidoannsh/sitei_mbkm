@@ -26,12 +26,12 @@ class sertifikatcontroller extends Controller
         // Storage::putFileAs('public/sertifikat', $request->file('pdf'),$filename);
 
         // Storage::putFileAs('public/product', $request->file('file'),$file);
-        $file = time().'.'.$request->file->extension();
-        Storage::putFileAs('public/file', $request->file('file'),$file);
+        $files = time().'.'.$request->file->extension();
+        Storage::putFileAs('public/sertifikat', $request->file('file'),$files);
 
         $sertifikat = sertifikat::create([
             'mahasiswa_nim' => $request->mahasiswa_nim,
-            'file' =>$file
+            'file' =>$files
 
         ]);
 

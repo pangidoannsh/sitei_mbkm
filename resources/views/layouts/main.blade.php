@@ -78,7 +78,7 @@
                 @if (Str::length(Auth::guard('dosen')->user()) > 0)
                 @if (Auth::guard('dosen')->user())
                 <li>
-                <a class="nav-link dropdown-item" href="/profil-dosen/editpassworddsn/">
+                <a class="nav-link dropdown-item" href="/dosen/editpassworddsn">
                     <i class="bi bipw bi-key"></i> <span>Ubah Password</span>
                 </a>
                 </li>
