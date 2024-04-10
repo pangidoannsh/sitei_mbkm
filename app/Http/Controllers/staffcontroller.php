@@ -13,41 +13,48 @@ use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Role;
 use App\Models\Konsentrasi;
-use App\Models\program;
+use App\Models\Konversi;
 
 class staffcontroller extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $mbkm = mbkm::all();
         return view('staff.index', compact('mbkm'));
     }
     // value enum = 'Usulan','Ditolak','Usulan disetujui','Usulan konversi nilai','Konversi diterima','Konversi ditolak','Nilai sudah keluar'
     public function approve(Request $request, $id)
     {
-        $km = mbkm::find($id);
+        $km = mbkm::findOrFail($id);
         $km->status = 'Nilai sudah keluar';
         $km->update();
         return  back();
     }
 
-    public function print(){
+    public function print()
+    {
         return view('staff.print');
     }
 
-    public function downloadpdf(){
-        $pdf = PDF::loadview('staff.print');
+    public function downloadpdf($id)
+    {
+        $mbkm = mbkm::findOrFail($id);
+        $konversi = Konversi::where("mbkm_id", $id)->get();
+        $pdf = PDF::loadview('staff.print', compact('konversi', 'mbkm'));
         $pdf->setPaper('A4', 'potrait');
         return $pdf->stream('konversi.pdf');
     }
 
-    public function indexmhs(){
+    public function indexmhs()
+    {
         $mahasiswa = mahasiswa::all();
         return view('staff.indexmahasiswa', compact('mahasiswa'));
     }
-    public function createmhs(){
+    public function createmhs()
+    {
         $konsentrasi = konsentrasi::all();
         $roles = role::all();
-        return view('staff.createmahasiswa', compact('konsentrasi','roles'));
+        return view('staff.createmahasiswa', compact('konsentrasi', 'roles'));
     }
 
     public function storemhs(Request $request)
@@ -119,14 +126,16 @@ class staffcontroller extends Controller
     }
 
 
-    public function indexdsn(){
+    public function indexdsn()
+    {
         $dosen = dosen::all();
         return view('staff.indexdosen', compact('dosen'));
     }
-    public function createdsn(){
+    public function createdsn()
+    {
         $prodis = prodi::all();
         $roles = role::all();
-        return view('staff.createdosen', compact('prodis','roles'));
+        return view('staff.createdosen', compact('prodis', 'roles'));
     }
     public function storedsn(Request $request)
     {
@@ -150,7 +159,6 @@ class staffcontroller extends Controller
         ]);
 
         return redirect('/staff/dosen')->with('message', 'Data Berhasil Ditambahkan!');
-
     }
 
     public function editdsn(Dosen $dosen)
@@ -195,11 +203,13 @@ class staffcontroller extends Controller
 
 
 
-    public function indexstaff(){
+    public function indexstaff()
+    {
         $user = User::all();
         return view('staff.indexstaff', compact('user'));
     }
-    public function createstaff(){
+    public function createstaff()
+    {
         $roles = role::all();
         return view('staff.createstaff', compact('roles'));
     }
@@ -293,5 +303,4 @@ class staffcontroller extends Controller
             return back()->with('message', 'Password Salah!');
         }
     }
-
 }

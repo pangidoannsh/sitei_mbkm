@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('mbkm_sertifikat', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('role_id');
-            $table->string('username');
-            $table->string('password');
-            $table->string('nama');
-            $table->string('email');
+            $table->string("mahasiswa_nim");
+            $table->string("mbkm_id");
+            $table->string("file");
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('mbkm_sertifikat');
     }
 };

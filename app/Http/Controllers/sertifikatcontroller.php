@@ -3,77 +3,75 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\sertifikat;
-use App\Models\konversi;
+use App\Models\Sertifikat;
+use App\Models\Konversi;
+use App\Models\Mbkm\MataKuliah;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
 class sertifikatcontroller extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('sertifikat.index');
     }
-    public function create(){
-        $konversi = konversi::all();
-        return view('sertifikat.create',compact('konversi'));
+    public function create($id)
+    {
+        $matkul = MataKuliah::all();
+        $mahasiswa = Auth::guard("mahasiswa")->user();
+        $konversi = Konversi::where("mbkm_id", $id)->get();
+        $sertifikat = Sertifikat::where("mbkm_id", $id)->first();
+        $mbkmId = $id;
+        return view('sertifikat.create', compact('konversi', 'mbkmId', 'sertifikat', 'matkul'));
     }
 
     public function store(Request $request)
     {
-        // $file = time().'.'.$request->pdf->extension();
-
-        // Storage::putFileAs('public/sertifikat', $request->file('pdf'),$filename);
-
-        // Storage::putFileAs('public/product', $request->file('file'),$file);
-        $files = time().'.'.$request->file->extension();
-        Storage::putFileAs('public/sertifikat', $request->file('file'),$files);
-
+        $files = time() . '.' . $request->file->extension();
+        Storage::putFileAs('public/sertifikat', $request->file('file'), $files);
+        $mahasiswa = Auth::guard("mahasiswa")->user();
         $sertifikat = sertifikat::create([
-            'mahasiswa_nim' => $request->mahasiswa_nim,
-            'file' =>$files
+            'mahasiswa_nim' => $mahasiswa->nim,
+            'mbkm_id' => $request->mbkm_id,
+            'file' => $files
 
         ]);
 
-        // $fileName = $sertifikat->file->getClientOriginalName();
-        // $sertifikat->file->move(public_path('uploads'), $fileName);
-
-        return redirect()->route('mahasiswa.index');
+        return redirect()->route('mbkm');
     }
 
     public function storekonversi(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mahasiswa_nim' =>'required',
-            'nama_nilai_mbkm' =>'required',
-            'nama_nilai_matkul' =>'required',
-            'kode_matkul' =>'required',
-            'sks' =>'required',
-            'jenis_matkul' =>'required',
-            'nilai_mbkm' =>'required',
+            'mbkm_id' => 'required',
+            'matkul' => 'required',
+            'nama_nilai_mbkm' => 'required',
+            'nilai_mbkm' => 'required',
         ]);
-
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
+        $matkul = MataKuliah::findOrFail($request->matkul);
 
-        $konversi = konversi::create([
-            'mahasiswa_nim' => $request->mahasiswa_nim,
+        Konversi::create([
+            'mbkm_id' => $request->mbkm_id,
             'nama_nilai_mbkm' => $request->nama_nilai_mbkm,
-            'nama_nilai_matkul' => $request->nama_nilai_matkul,
-            'kode_matkul' => $request->kode_matkul,
-            'sks' => $request->sks,
-            'jenis_matkul' => $request->jenis_matkul,
+            'nama_nilai_matkul' => $matkul->mk,
+            'kode_matkul' => $matkul->kode_mk,
+            'sks' => $matkul->sks,
+            'jenis_matkul' => $matkul->jenis,
             'nilai_mbkm' => $request->nilai_mbkm,
         ]);
 
-        return redirect()->route('sertifikat.create');
+        return back();
     }
 
-    public function destroykonversi($id){
-        $konversi = konversi::find($id);
+    public function destroykonversi($id)
+    {
+        $konversi = Konversi::findOrFail($id);
         $konversi->delete();
 
-        return redirect()->route('sertifikat.create');
+        return back();
     }
 }

@@ -7,63 +7,75 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
-use App\Models\mbkm;
+use App\Models\Mbkm;
 use App\Models\Dosen;
 use App\Models\Prodi;
 use App\Models\Mahasiswa;
 use App\Models\Konsentrasi;
-use App\Models\program;
-use App\Models\sertifikat;
-use App\Models\konversi;
-
+use App\Models\Program;
+use App\Models\Sertifikat;
+use App\Models\Konversi;
+use Illuminate\Console\View\Components\Alert;
+use Illuminate\Support\Facades\Hash;
 
 class mahasiswacontroller extends Controller
 {
-   public function index(){
-    $prodi = prodi::all();
-    $konsentrasi = konsentrasi::all();
-    $program = program::all();
-    $mbkm = mbkm::where('mahasiswa_nim', Auth::user()->nim)->get();
-    $mbkm= mbkm::orderBy("updated_at", "DESC")->get();
-    return view ('mahasiswa.index',compact('mbkm','prodi','konsentrasi','program'));
-   }
-
-   public function detail($id){
-    $mbkm= mbkm::where('id', $id)->get();
-    $konversi= konversi::all();
-    $sertifikat= sertifikat::all();
-    // $konversi = konversi::where('mahasiswa_nim', Auth::user()->nim)->get();
-    return view('mahasiswa.detail', compact('mbkm', 'konversi','sertifikat'));
-        // 'mbkm' => mbkm::where('id', $id)->where('prodi_id', '3')->get(),
+    public function index()
+    {
+        $prodi = Prodi::all();
+        $konsentrasi = konsentrasi::all();
+        $program = Program::all();
+        $mbkm = Mbkm::where('mahasiswa_nim', Auth::guard("mahasiswa")->user()->nim)
+            ->where(function ($query) {
+                $query->where("status", "!=", "Ditolak")
+                    ->where("status", "!=", "Nilai sudah keluar");
+            })
+            ->orderBy("updated_at", "DESC")->get();
+        // $mbkm = mbkm::orderBy("updated_at", "DESC")->get();
+        return view('mahasiswa.index', compact('mbkm', 'prodi', 'konsentrasi', 'program'));
+    }
+    public function riwayat()
+    {
+        $mbkm = Mbkm::where('mahasiswa_nim', Auth::guard("mahasiswa")->user()->nim)
+            ->where(function ($query) {
+                $query->where("status", "Ditolak")
+                    ->orWhere("status", "Nilai sudah keluar");
+            })
+            ->orderBy("created_at", "DESC")->get();
+        return view('mahasiswa.riwayat', compact('mbkm'));
     }
 
-   public function store(Request $request)
+
+    public function detail($id)
     {
+        $mbkm = Mbkm::where('id', $id)->first();
+        $konversi = Konversi::where("mbkm_id", $mbkm->id)->get();
+        $sertifikat = Sertifikat::where("mbkm_id", $mbkm->id)->first();
+        return view('mahasiswa.detail', compact('mbkm', 'konversi', 'sertifikat'));
+    }
 
+    public function store(Request $request)
+    {
         $validator = Validator::make($request->all(), [
-            // 'mahasiswa_nim' =>'required',
-            // 'prodi_id' =>'required',
-            // 'konsentrasi_id' =>'required',
-            'program_id' =>'required',
-            'periode_mbkm' =>'required',
-            'perusahaan' =>'required',
-            'alamat' =>'required',
-            'bidang_usaha' =>'required',
-            'judul' =>'required',
-            'rincian' =>'required',
-            'priode_kegiatan' =>'required',
-            'batas' =>'required',
+            'program_id' => 'required',
+            'periode_mbkm' => 'required',
+            'perusahaan' => 'required',
+            'alamat' => 'required',
+            'bidang_usaha' => 'required',
+            'judul' => 'required',
+            'rincian' => 'required',
+            'mulai_kegiatan' => 'required',
+            'selesai_kegiatan' => 'required',
+            'batas' => 'required',
         ]);
-
+        $mahasiswa = Auth::guard("mahasiswa")->user();
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
+        $rincian = $request->file('rincian');
 
-        $rincian = time().'.'.$request->rincian->extension();
-        Storage::putFileAs('public/file', $request->file('rincian'),$rincian);
-
-        $mbkm = mbkm::create([
-            'mahasiswa_nim' => $request->mahasiswa_nim,
+        $mbkm = Mbkm::create([
+            'mahasiswa_nim' => $mahasiswa->nim,
             'program_id' => $request->program_id,
             'periode_mbkm' => $request->periode_mbkm,
             'prodi_id' => $request->prodi_id,
@@ -72,16 +84,13 @@ class mahasiswacontroller extends Controller
             'alamat' => $request->alamat,
             'bidang_usaha' => $request->bidang_usaha,
             'judul' => $request->judul,
-            'rincian' =>$rincian,
-            'priode_kegiatan' => $request->priode_kegiatan,
+            'mulai_kegiatan' => $request->mulai_kegiatan,
+            'selesai_kegiatan' => $request->selesai_kegiatan,
+            'rincian' => str_replace('public/', '', $rincian->store('public/mbkm')),
             'batas' => $request->batas,
 
         ]);
-
-        // $fileName = $sertifikat->file->getClientOriginalName();
-        // $sertifikat->file->move(public_path('uploads'), $fileName);
-
-        return redirect()->route('mahasiswa.index');
+        return redirect()->route('mbkm');
     }
 
     public function editpswmhs(Mahasiswa $mahasiswa)
@@ -118,13 +127,19 @@ class mahasiswacontroller extends Controller
         }
     }
 
-   public function uploaded(Request $request, $id)
+    public function uploaded(Request $request, $id)
     {
-        $km = mbkm::find($id);
+        $km = Mbkm::findOrFail($id);
         $km->status = 'Usulan konversi nilai';
-        $km->updated_at = date('Y-m-d H:i:s');
         $km->update();
         return  back();
     }
 
+    public function destroy($id)
+    {
+        $data = Mbkm::findOrFail($id);
+        Storage::delete("public/" . $data->rincian);
+        $data->delete();
+        return back();
+    }
 }

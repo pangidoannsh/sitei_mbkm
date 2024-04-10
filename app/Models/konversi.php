@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Mahasiswa;
 
 
-class konversi extends Model
+class Konversi extends Model
 {
     use HasFactory;
-    protected $table = 'konversi';
+    protected $table = 'mbkm_konversi';
     protected $guarded = [];
 
     public $timestamps = false;
@@ -19,5 +19,4 @@ class konversi extends Model
     {
         return $this->hasMany(mahasiswa::class);
     }
-
 }

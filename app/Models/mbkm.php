@@ -9,7 +9,7 @@ use App\Models\program;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class mbkm extends Model
+class Mbkm extends Model
 {
     use HasFactory;
 

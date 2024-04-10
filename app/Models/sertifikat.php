@@ -6,10 +6,10 @@ use App\Models\Mahasiswa;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class sertifikat extends Model
+class Sertifikat extends Model
 {
     use HasFactory;
-    protected $table = 'sertifikat';
+    protected $table = 'mbkm_sertifikat';
     protected $guarded = [];
 
     public $timestamps = false;

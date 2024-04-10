@@ -6,10 +6,10 @@ use App\Models\mbkm;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class program extends Model
+class Program extends Model
 {
     use HasFactory;
-    protected $table = 'program';
+    protected $table = 'mbkm_program';
     protected $guarded = [];
 
     public function mbkm()
