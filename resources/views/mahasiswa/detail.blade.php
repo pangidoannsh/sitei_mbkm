@@ -9,7 +9,7 @@
 @endsection
 
 @section('sub-title')
-    Detail Mahasiswa
+    Detail MBKM
 @endsection
 <style>
 
@@ -25,6 +25,42 @@
     <div class="container-fluid">
         <a href="{{ URL::previous() }}" class="badge bg-success p-2 mb-3 "> Kembali <a>
     </div>
+    @if ($mbkm->status == 'Usulan pengunduran diri' || $mbkm->status == 'Mengundurkan diri')
+        <div class="card">
+            <div class="card-body">
+                @if ($mbkm->status == 'Usulan pengunduran diri')
+                    <h5>Pengajuan Pengunduran Diri</h5>
+                    <hr>
+                @elseif($mbkm->status == 'Mengundurkan diri')
+                    <div class="status-danger mb-3" style="width: max-content">
+                        Mahasiswa Telah Mengundurkan Diri
+                    </div>
+                @endif
+                <div class="d-flex flex-column">
+                    <p class="card-title text-secondary text-sm ">Surat Pengunduran Diri</p>
+                    <div>
+                        <a href="{{ asset('storage/' . $mbkm->surat_pengunduran) }}"
+                            target="_blank"class="badge bg-dark px-3 p-1">Buka</a>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <p class="card-title text-secondary text-sm ">Alasan Pengunduran Diri</p>
+                    <p class="card-text text-start">{{ $mbkm->alasan_undur_diri }}</p>
+                </div>
+                @if ($mbkm->status == 'Usulan pengunduran diri')
+                    @if (Auth::guard('dosen')->check() && in_array(Auth::guard('dosen')->user()->role_id, [6, 7, 8]))
+                        <form action="{{ route('prodi.approvepengunduran', $mbkm->id) }}" method="POST"
+                            style="display: inline;" id="pengunduran-diri" class="mt-3">
+                            @csrf
+                            <button type="submit" class="btn btn-success p-1 mb-1">
+                                Setujui Pengajuan
+                            </button>
+                        </form>
+                    @endif
+                @endif
+            </div>
+        </div>
+    @endif
     <div class="row">
         <div class="col-sm-6">
             <div class="card">
@@ -149,7 +185,8 @@
                     <button onclick="tolakUsulankonversiKaprodi()" class="btn btn-danger badge p-2 px-3"
                         data-bs-toggle="tooltip" title="Tolak">Tolak</button>
                 </div>
-                <form action="/prodi/approvekonversi/{{ $mbkm->id }}" class="setujui-usulankp-kaprodi" method="POST">
+                <form action="/prodi/approvekonversi/{{ $mbkm->id }}" class="setujui-usulankp-kaprodi"
+                    method="POST">
                     @method('put')
                     @csrf
                     <button class="btn btn-success badge p-2 px-3 mb-3">Setujui</i></button>
@@ -185,6 +222,24 @@
 @endsection
 @push('scripts')
     <script>
+        $("#pengunduran-diri").submit((e) => {
+            const form = $(this).closest("form");
+            e.preventDefault();
+            Swal.fire({
+                title: 'Usulan Pengunduran Diri',
+                text: 'Setujui Usulan Pengunduran Diri?',
+                icon: 'question',
+                showCancelButton: true,
+                cancelButtonText: 'Batal',
+                confirmButtonText: 'Setujui',
+                confirmButtonColor: '#dc3545'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    e.currentTarget.submit()
+                }
+            })
+        })
+
         function tolakUsulanmbkmKaprodi() {
             Swal.fire({
                 title: 'Tolak Usulan MBKM',

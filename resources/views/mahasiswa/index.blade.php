@@ -23,11 +23,11 @@
 
     <div class="container-fluid">
         @if ($mbkm->count() > 0)
-            <div class="card card-timeline px-2 border-none">
-                <h5 class="text-center">
-                    @foreach ($mbkm->take(1) as $km)
+            @if ($currentMbkm)
+                <div class="card card-timeline px-2 border-none">
+                    <h5 class="text-center">
                         <ul class="bs4-order-tracking my-5">
-                            @if ($km->status == 'Usulan')
+                            @if ($currentMbkm->status == 'Usulan')
                                 <li class="step">
                                     <div>
                                         <i class="fas"></i>
@@ -50,7 +50,7 @@
                                     <p class="mt-3"> SELESAI PROGRAM </p>
                                 </li>
                                 {{-- satu terima --}}
-                            @elseif ($km->status == 'Disetujui')
+                            @elseif ($currentMbkm->status == 'Disetujui')
                                 <li class="step active">
                                     <div>
                                         <i class="fas"></i>
@@ -72,7 +72,7 @@
                                     </div>
                                     <p class="mt-3"> SELESAI PROGRAM </p>
                                 </li>
-                            @elseif ($km->status == 'Ditolak')
+                            @elseif ($currentMbkm->status == 'Ditolak')
                                 <li class="step aktip">
                                     <div>
                                         <i class="fas"></i>
@@ -95,7 +95,7 @@
                                     <p class="mt-3"> SELESAI PROGRAM </p>
                                 </li>
                                 {{-- 2 diterima --}}
-                            @elseif ($km->status == 'Usulan konversi nilai')
+                            @elseif ($currentMbkm->status == 'Usulan konversi nilai')
                                 <li class="step active">
                                     <div>
                                         <i class="fas"></i>
@@ -117,7 +117,7 @@
                                     </div>
                                     <p class="mt-3"> SELESAI PROGRAM </p>
                                 </li>
-                            @elseif ($km->status == 'Konversi Ditolak')
+                            @elseif ($currentMbkm->status == 'Konversi Ditolak')
                                 <li class="step active">
                                     <div>
                                         <i class="fas"></i>
@@ -139,7 +139,7 @@
                                     </div>
                                     <p class="mt-3"> SELESAI PROGRAM </p>
                                 </li>
-                            @elseif ($km->status == 'Konversi diterima')
+                            @elseif ($currentMbkm->status == 'Konversi diterima')
                                 <li class="step active">
                                     <div>
                                         <i class="fas"></i>
@@ -161,7 +161,7 @@
                                     </div>
                                     <p class="mt-3"> SELESAI PROGRAM </p>
                                 </li>
-                            @elseif ($km->status == 'Nilai sudah keluar')
+                            @elseif ($currentMbkm->status == 'Nilai sudah keluar')
                                 <li class="step active">
                                     <div>
                                         <i class="fas"></i>
@@ -210,7 +210,7 @@
                         <div class="row biru mb-4">
                             <div class="col">
                                 <span class="mt-3 "> Tanggal Diterima <br></span>
-                                <span class="mt-3  text-warning">{{ $km->batas }}</span>
+                                <span class="mt-3  text-warning">{{ $currentMbkm->batas }}</span>
                             </div>
                             <div class="col"><span class="mt-1 text"> Batas Unggah <br></span>
                                 <strong class="mt-3 text-danger">Akhir Program<strong class="text-bold"
@@ -221,9 +221,9 @@
                                         id="#"></strong><br></strong>
                             </div>
                         </div>
-                    @endforeach
-                </h5>
-            </div>
+                    </h5>
+                </div>
+            @endif
         @endif
         @if (!$mbkm->pluck('status')->contains('Disetujui'))
             <button type="button" class="btn btn-success float-left mt-4 " data-toggle="modal"
@@ -258,17 +258,17 @@
             <table class="table table-responsive-lg table-bordered table-striped" width="100%" id="datatables">
                 <thead class="table-dark">
                     <tr>
-                        <th class="text-center" scope="col">NIM</th>
-                        <th class="text-center" scope="col">Nama</th>
-                        <th class="text-center" scope="col">Periode Semester</th>
-                        <th class="text-center" scope="col">Jenis MBKM</th>
-                        <th class="text-center" scope="col">Lokasi MBKM</th>
-                        <th class="text-center" scope="col">Judul MBKM</th>
-                        <th class="text-center" scope="col">Status</th>
-                        <th class="text-center" scope="col">Alasan</th>
-                        <th class="text-center" scope="col">Periode Kegiatan</th>
-                        <th class="text-center" scope="col">Batas Waktu</th>
-                        <th class="text-center px-5" scope="col">Aksi</th>
+                        <th class="text-center">NIM</th>
+                        <th class="text-center">Nama</th>
+                        <th class="text-center">Periode Semester</th>
+                        <th class="text-center">Jenis MBKM</th>
+                        <th class="text-center">Lokasi MBKM</th>
+                        <th class="text-center">Judul MBKM</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Alasan</th>
+                        <th class="text-center">Periode Kegiatan</th>
+                        <th class="text-center">Batas Waktu</th>
+                        <th class="text-center px-5">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -299,40 +299,49 @@
                             </td>
                             <td class="text-center text-danger text-bold">{{ $km->batas }}</td>
 
-                            <td class="text-center">
-                                <a href="{{ route('mbkm.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1"
-                                    data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
-                                @switch($km->status)
-                                    @case('Usulan')
-                                        <form action="{{ route('mbkm.destroy', $km->id) }}" method="POST"
-                                            style="display: inline;">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="submit" class="badge btn btn-danger p-1.5 mb-2">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    @break
+                            <td class="text-center"style="width: 56px">
+                                <div class="row row-cols-2 justify-content-center">
+                                    <div>
+                                        <a href="{{ route('mbkm.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1"
+                                            data-bs-toggle="tooltip" title="Lihat Detail"><i
+                                                class="fas fa-info-circle"></i></a>
+                                    </div>
+                                    @switch($km->status)
+                                        @case('Usulan')
+                                            <form action="{{ route('mbkm.destroy', $km->id) }}" method="POST"
+                                                style="display: inline;">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit" class="badge btn btn-danger p-1.5 mb-2">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        @break
 
-                                    @case('Disetujui')
-                                        {{-- <a href="{{ route('mbkm.logbook', $km->id) }}" class="badge btn-success"
-                                            data-bs-toggle="tooltip" title="Logbook">
-                                            <i class="fa-solid fa-calendar"></i>
-                                        </a> --}}
-                                    @case('Konversi ditolak')
-                                        <a href="{{ route('mbkm.sertif.create', $km->id) }}" class="badge  "
-                                            data-bs-toggle="tooltip" title="Unggah Sertifikat"><img height="25"
-                                                width="25" src="/assets/img/add.png" alt="..." class="zoom-image"></a>
-                                        <form action="{{ route('mbkm.uploaded', $km->id) }}" method="POST"
-                                            style="display: inline;">
-                                            @csrf
-                                            <button type="submit" class="badge btn btn-info p-1 mb-1"><i class="fas fa-check"
-                                                    title="Ajukan Konversi"></i></button>
-                                        </form>
-                                    @break
+                                        @case('Disetujui')
+                                            <div>
+                                                <a href="{{ route('mbkm.undurdiri', $km->id) }}" class="badge btn-danger"
+                                                    data-bs-toggle="tooltip" title="Usulan pengunduran diri">
+                                                    <i class="fa-solid fa-file-circle-xmark"></i>
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <a href="{{ route('mbkm.sertif.create', $km->id) }}" class="badge  "
+                                                    data-bs-toggle="tooltip" title="Unggah Sertifikat"><img height="25"
+                                                        width="25" src="/assets/img/add.png" alt="..."
+                                                        class="zoom-image"></a>
+                                            </div>
+                                            <form action="{{ route('mbkm.uploaded', $km->id) }}" method="POST"
+                                                style="display: inline;">
+                                                @csrf
+                                                <button type="submit" class="badge btn btn-info p-1 mb-1"><i
+                                                        class="fas fa-check" title="Ajukan Konversi"></i></button>
+                                            </form>
+                                        @break
 
-                                    @default
-                                @endswitch
+                                        @default
+                                    @endswitch
+                                </div>
                             </td>
                         </tr>
                     @endforeach

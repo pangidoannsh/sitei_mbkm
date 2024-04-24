@@ -44,6 +44,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
             Route::get('/mahasiswa/riwayat', [mahasiswacontroller::class, 'riwayat'])->name('mbkm.riwayat');
             Route::get('/mahasiswa/{mbkm:id}', [mahasiswacontroller::class, 'detail'])->name('mbkm.detail');
             Route::delete('/mahasiswa/{mbkm:id}', [mahasiswacontroller::class, 'destroy'])->name('mbkm.destroy');
+            Route::get('/undur-diri/{mbkm:id}', [mahasiswacontroller::class, 'undurDiri'])->name('mbkm.undurdiri');
+            Route::post('/undur-diri/{mbkm:id}', [mahasiswacontroller::class, 'storeUndurDiri'])->name('mbkm.undurdiri.store');
             Route::post('/usulan', [mahasiswacontroller::class, 'store'])->name('mbkm.store');
             Route::post('/uploaded/{mbkm:id}', [mahasiswacontroller::class, 'uploaded'])->name('mbkm.uploaded');
 
@@ -68,6 +70,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::get('/prodi', [prodicontroller::class, 'index'])->name('prodi');
                 Route::post('/prodi/approve/{mbkm:id}', [prodicontroller::class, 'approveusulan'])->name('prodi.approveusulan');
                 Route::post('/prodi/approvekonversi/{mbkm:id}', [prodicontroller::class, 'approvekonversi'])->name('prodi.approvekonversi');
+                Route::post('/prodi/approvekonversi/{mbkm:id}', [prodicontroller::class, 'approvepengunduran'])->name('prodi.approvepengunduran');
                 Route::put('/prodi/tolakusulan/{mbkm:id}', [prodicontroller::class, 'tolakusulan'])->name('prodi.tolakusulan');
                 Route::put('/prodi/tolakkonversi/{mbkm:id}', [prodicontroller::class, 'tolakkonversi'])->name('prodi.tolakkonversi');
                 Route::get('/dosen/editpassworddsn', [dosenController::class, 'editpswdsn'])->name('dosen.editpw');

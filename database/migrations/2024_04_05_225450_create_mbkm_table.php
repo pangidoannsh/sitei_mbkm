@@ -26,9 +26,12 @@ return new class extends Migration
             $table->date("mulai_kegiatan");
             $table->date("selesai_kegiatan");
             $table->string("batas");
+            $table->string("alasan_undur_diri")->nullable();
+            $table->string("surat_pengunduran")->nullable();
             $table->enum("status", [
                 "Usulan", "Disetujui", "Ditolak", "Usulan konversi nilai",
                 "Konversi diterima", "Konversi ditolak", "Nilai sudah keluar",
+                "Usulan pengunduran diri", "Mengundurkan diri"
             ])->default("Usulan");
             $table->string("catatan")->default("-");
             $table->timestamps();

@@ -14,7 +14,10 @@ class prodicontroller extends Controller
 {
     public function index()
     {
-        $mbkm = mbkm::where("status", "Usulan")->orWhere("status", "Usulan konversi nilai")->get();
+        $mbkm = mbkm::where("status", "Usulan")
+            ->orWhere("status", "Usulan konversi nilai")
+            ->orWhere("status", "Usulan pengunduran diri")
+            ->get();
         return view('prodi.index', compact('mbkm'));
     }
 
@@ -26,7 +29,9 @@ class prodicontroller extends Controller
         $km->updated_at = date('Y-m-d H:i:s');
         $km->update();
         // Mengubah Status Usulan yang lainnya menjadi DITOLAK
-        mbkm::where("mahasiswa_nim", $km->mahasiswa_nim)->where("id", "!=", $id)->where("status", "!=", "Ditolak")
+        mbkm::where("mahasiswa_nim", $km->mahasiswa_nim)
+            ->where("id", "!=", $id)
+            ->where("status", "Usulan")
             ->update([
                 "status" => "Ditolak",
                 "catatan" => "Salah satu usulan telah DITERIMA"
@@ -74,7 +79,16 @@ class prodicontroller extends Controller
         $mbkm = mbkm::where("status", "Ditolak")
             ->orWhere("status", "Nilai sudah keluar")
             ->orWhere("status", "Konversi diterima")
+            ->orWhere("status", "Mengundurkan diri")
             ->get();
         return view('prodi.riwayat', compact('mbkm'));
+    }
+
+    public function approvepengunduran($id)
+    {
+        $km = mbkm::findOrFail($id);
+        $km->status = 'Mengundurkan diri';
+        $km->update();
+        return redirect()->route("prodi");
     }
 }

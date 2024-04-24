@@ -28,6 +28,7 @@ class mahasiswacontroller extends Controller
         $mbkm = Mbkm::where('mahasiswa_nim', Auth::guard("mahasiswa")->user()->nim)
             ->where(function ($query) {
                 $query->where("status", "!=", "Ditolak")
+                    ->where("status", "!=", "Mengundurkan diri")
                     ->where("status", "!=", "Nilai sudah keluar");
             })
             ->orderBy("updated_at", "DESC")->get();
@@ -39,6 +40,7 @@ class mahasiswacontroller extends Controller
         $mbkm = Mbkm::where('mahasiswa_nim', Auth::guard("mahasiswa")->user()->nim)
             ->where(function ($query) {
                 $query->where("status", "Ditolak")
+                    ->orWhere("status", "Mengundurkan diri")
                     ->orWhere("status", "Nilai sudah keluar");
             })
             ->orderBy("created_at", "DESC")->get();
@@ -141,5 +143,22 @@ class mahasiswacontroller extends Controller
         Storage::delete("public/" . $data->rincian);
         $data->delete();
         return back();
+    }
+
+    public function undurDiri($id)
+    {
+        $mbkm = Mbkm::findOrFail($id);
+        return view("mbkm.undur-diri", compact('mbkm'));
+    }
+
+    public function storeUndurDiri(Request $request, $id)
+    {
+        $mbkm = Mbkm::findOrFail($id);
+        $mbkm->status = "Usulan pengunduran diri";
+        $surat = $request->file('file');
+        $mbkm->surat_pengunduran = str_replace('public/', '', $surat->store('public/mbkm'));
+        $mbkm->alasan_undur_diri = $request->alasan;
+        $mbkm->update();
+        return redirect()->route("mbkm");
     }
 }

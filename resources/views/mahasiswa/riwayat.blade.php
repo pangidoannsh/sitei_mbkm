@@ -47,7 +47,7 @@
                         <th class="text-center" scope="col">Status</th>
                         <th class="text-center" scope="col">Alasan</th>
                         <th class="text-center" scope="col">Periode Kegiatan</th>
-                        <th class="text-center" scope="col">Batas Waktu</th>
+                        {{-- <th class="text-center" scope="col">Batas Waktu</th> --}}
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -69,14 +69,18 @@
                                 <td class="text-center bg-success">{{ $km->status }}</td>
                             @elseif($km->status == 'Ditolak')
                                 <td class="text-center bg-danger">{{ $km->status }}</td>
-                            @elseif($km->status == 'Konversi Ditolak')
+                            @elseif($km->status == 'Konversi ditolak')
+                                <td class="text-center bg-danger">{{ $km->status }}</td>
+                            @elseif($km->status == 'Mengundurkan diri')
                                 <td class="text-center bg-danger">{{ $km->status }}</td>
                             @else
                                 <td class="text-center bg-warning">{{ $km->status }}</td>
                             @endif
 
                             <td class="text-center" style="overflow: hidden">
-                                <div class="ellipsis-2">{{ $km->catatan }}</div>
+                                <div class="ellipsis-2">
+                                    {{ $km->status == 'Konversi ditolak' ? $km->catatan : $km->alasan_undur_diri }}
+                                </div>
                             </td>
                             <td class="text-center" style="overflow: hidden">
                                 <div class="ellipsis-2">
@@ -85,7 +89,7 @@
                                         Carbon::parse($km->selesai_kegiatan)->translatedFormat('d/m/Y') }}
                                 </div>
                             </td>
-                            <td class="text-center text-danger text-bold">{{ $km->batas }}</td>
+                            {{-- <td class="text-center text-danger text-bold">{{ $km->batas }}</td> --}}
 
                             <td class="text-center">
                                 <a href="{{ route('mbkm.detail', $km->id) }}" class="badge btn btn-info p-1"

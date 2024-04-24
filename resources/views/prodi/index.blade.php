@@ -73,10 +73,9 @@
                                 </td>
                                 <td class="text-center text-danger text-bold">{{ $km->batas }}</td>
                                 <td class="text-center">
+                                    <a href="{{ route('mbkm.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1"
+                                        data-bs-toggle="tooltip" title="Lihat Detail"><i class="fas fa-info-circle"></i></a>
                                     @if ($km->status == 'Usulan')
-                                        <a href="{{ route('mbkm.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1"
-                                            data-bs-toggle="tooltip" title="Lihat Detail"><i
-                                                class="fas fa-info-circle"></i></a>
                                         <form action="{{ route('prodi.approveusulan', $km->id) }}" method="POST"
                                             style="display: inline;">
                                             @csrf
@@ -86,9 +85,6 @@
                                         <button type="button" onclick="tolakUsulanmbkmKaprodi()" title="Tolak Usulan"
                                             class="badge btn btn-danger p-1.5 mb-2"><i class="fas fa-times"></i></button>
                                     @elseif($km->status == 'Usulan konversi nilai')
-                                        <a href="{{ route('mbkm.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1"
-                                            data-bs-toggle="tooltip" title="Lihat Detail"><i
-                                                class="fas fa-info-circle"></i></a>
                                         <form action="{{ route('prodi.approvekonversi', $km->id) }}" method="POST"
                                             style="display: inline;">
                                             @csrf
@@ -97,10 +93,14 @@
                                         </form>
                                         <button type="button" onclick="tolakUsulankonversiKaprodi()" title="Tolak Konversi"
                                             class="badge btn btn-danger p-1.5 mb-2"><i class="fas fa-times"></i></button>
-                                    @else
-                                        <a href="{{ route('mbkm.detail', $km->id) }}" class="badge btn btn-info p-1 mb-1"
-                                            data-bs-toggle="tooltip" title="Lihat Detail"><i
-                                                class="fas fa-info-circle"></i></a>
+                                    @elseif($km->status == 'Usulan pengunduran diri')
+                                        <form action="{{ route('prodi.approvepengunduran', $km->id) }}" method="POST"
+                                            style="display: inline;" class="pengunduran-diri">
+                                            @csrf
+                                            <button type="submit" class="badge btn btn-success p-1 mb-1"><i
+                                                    class="fas fa-check"
+                                                    title="Setujui Usulan Pengunduran Diri"></i></button>
+                                        </form>
                                     @endif
 
                                 </td>
@@ -179,6 +179,24 @@
                     }
                 });
             }
+
+            $(".pengunduran-diri").submit((e) => {
+                const form = $(this).closest("form");
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Usulan Pengunduran Diri',
+                    text: 'Setujui Usulan Pengunduran Diri?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    cancelButtonText: 'Batal',
+                    confirmButtonText: 'Setujui',
+                    confirmButtonColor: '#dc3545'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        e.currentTarget.submit()
+                    }
+                })
+            })
         </script>
     @endforeach
 @endpush()

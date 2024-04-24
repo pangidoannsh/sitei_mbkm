@@ -57,7 +57,7 @@
                             <td class="text-center ">{{ $km->judul }}</td>
                             @if ($km->status == 'Nilai sudah keluar')
                                 <td class="text-center bg-success">{{ $km->status }}</td>
-                            @elseif($km->status == 'Ditolak')
+                            @elseif($km->status == 'Ditolak' || $km->status == 'Mengundurkan diri')
                                 <td class="text-center bg-danger">{{ $km->status }}</td>
                             @else
                                 <td class="text-center bg-warning">{{ $km->status }}</td>
