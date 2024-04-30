@@ -88,6 +88,7 @@
                                         <form action="{{ route('prodi.approvekonversi', $km->id) }}" method="POST"
                                             style="display: inline;">
                                             @csrf
+                                            @method('post')
                                             <button type="submit" class="badge btn btn-info p-1 mb-1"><i
                                                     class="fas fa-check"></i></button>
                                         </form>

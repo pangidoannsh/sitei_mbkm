@@ -13,14 +13,10 @@
 @endsection
 
 @section('content')
-    {{-- <a href="{{ route('staff.indexmhs') }}" class="btn mahasiswa btn-success mb-3">Daftar Mahasiswa</a>
-    <a href="{{ route('staff.indexdsn') }}" class="btn mahasiswa btn-success mb-3">Daftar Dosen</a>
-    <a href="{{ route('staff.indexstaff') }}" class="btn mahasiswa btn-success mb-3">Daftar Staff</a>
-    <br> --}}
     <div class="container card p-4">
 
         <div class="container-fluid">
-            <table class="table table-responsive-lg table-bordered " width="100%" id="datatables">
+            <table class="table table-responsive-lg table-bordered " id="datatables">
                 <thead class="table-dark">
                     <tr>
                         <th class="text-center" scope="col">NO</th>
@@ -58,12 +54,12 @@
                                 <td class="text-center bg-success">{{ $km->status }}</td>
                             @elseif($km->status == 'Ditolak')
                                 <td class="text-center bg-danger">{{ $km->status }}</td>
-                            @elseif($km->status == 'Konversi Ditolak')
+                            @elseif(in_array($km->status, ['Konversi Ditolak', 'Mengundurkan diri']))
                                 <td class="text-center bg-danger">{{ $km->status }}</td>
                             @else
                                 <td class="text-center bg-warning">{{ $km->status }}</td>
                             @endif
-                            <td class="text-center" style="overflow: hidden">
+                            <td class="text-center" style="overflow: hidden;">
                                 <div class="ellipsis-2">
                                     {{ Carbon::parse($km->mulai_kegiatan)->translatedFormat('d F Y') }} -
                                     {{ Carbon::parse($km->selesai_kegiatan)->translatedFormat('d F Y') }}

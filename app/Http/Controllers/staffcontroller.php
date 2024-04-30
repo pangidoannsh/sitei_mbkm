@@ -19,7 +19,7 @@ class staffcontroller extends Controller
 {
     public function index()
     {
-        $mbkm = mbkm::all();
+        $mbkm = mbkm::where("status", "Konversi diterima")->get();
         return view('staff.index', compact('mbkm'));
     }
     // value enum = 'Usulan','Ditolak','Usulan disetujui','Usulan konversi nilai','Konversi diterima','Konversi ditolak','Nilai sudah keluar'

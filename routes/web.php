@@ -70,7 +70,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::get('/prodi', [prodicontroller::class, 'index'])->name('prodi');
                 Route::post('/prodi/approve/{mbkm:id}', [prodicontroller::class, 'approveusulan'])->name('prodi.approveusulan');
                 Route::post('/prodi/approvekonversi/{mbkm:id}', [prodicontroller::class, 'approvekonversi'])->name('prodi.approvekonversi');
-                Route::post('/prodi/approvekonversi/{mbkm:id}', [prodicontroller::class, 'approvepengunduran'])->name('prodi.approvepengunduran');
+                Route::post('/prodi/approvepengunduran/{mbkm:id}', [prodicontroller::class, 'approvepengunduran'])->name('prodi.approvepengunduran');
                 Route::put('/prodi/tolakusulan/{mbkm:id}', [prodicontroller::class, 'tolakusulan'])->name('prodi.tolakusulan');
                 Route::put('/prodi/tolakkonversi/{mbkm:id}', [prodicontroller::class, 'tolakkonversi'])->name('prodi.tolakkonversi');
                 Route::get('/dosen/editpassworddsn', [dosenController::class, 'editpswdsn'])->name('dosen.editpw');

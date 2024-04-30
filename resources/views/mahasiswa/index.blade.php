@@ -2,7 +2,7 @@
 
 @php
     use Carbon\Carbon;
-    $currentMbkm = $mbkm->where('status', 'Disetujui')->first();
+    $currentMbkm = $mbkm->first();
 @endphp
 
 @section('title')
